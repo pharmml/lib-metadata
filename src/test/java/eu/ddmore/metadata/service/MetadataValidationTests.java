@@ -1,7 +1,5 @@
 package eu.ddmore.metadata.service;
 
-import eu.ddmore.metadata.service.MetadataValidator;
-import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,21 +15,8 @@ public class MetadataValidationTests {
     @Autowired
     private MetadataValidator metadataValidator;
 
-    @Autowired
-    private MetadataReader metadataReader;
-
-    @Autowired
-    private MetadataMap metadataMap;
-
-    @Before
-    public void setUp() throws Exception {
-        metadataMap = metadataReader.metadataRead(new File("C:\\Users\\sarala.EBI\\Documents\\GitHub\\pharmml-metadata\\specification\\DDMODEL00000186-metadata.rdf"));
-        metadataValidator.setMetadataMap(metadataMap);
-
-    }
-
     @Test
     public void testDdmoreCertified() {
-        org.junit.Assert.assertTrue(metadataValidator.ddmoreCertified());
+        org.junit.Assert.assertFalse(metadataValidator.ddmoreCertified(new File("resources\\example2.xml")));
     }
 }

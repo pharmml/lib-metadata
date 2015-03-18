@@ -6,14 +6,14 @@
     <context:annotation-config />
     <context:component-scan base-package="eu.ddmore.metadata"/>
 
-    <bean id="metadataMap" class="eu.ddmore.metadata.service.MetadataMap"/>
-
-   <bean id="metadataReader" class="eu.ddmore.metadata.service.MetadataReaderImpl">
-       <constructor-arg name="model" ref="model"/>
-       <constructor-arg name="metadataMap" ref="metadataMap"/>
-   </bean>
+    <bean id="metadataMap" class="eu.ddmore.metadata.service.MetadataMapImpl">
+        <constructor-arg index="0" type="java.io.File" value="property-mapping.csv"/>
+        <constructor-arg index="1" type="java.io.File" value="ontology-mapping.csv"/>
+    </bean>
 
     <bean id="metadataValidator" class="eu.ddmore.metadata.service.MetadataValidatorImpl">
+        <constructor-arg name="model" ref="model"/>
+        <constructor-arg name="metadataMap" ref="metadataMap"/>
     </bean>
 
     <bean id="model" class="com.hp.hpl.jena.rdf.model.ModelFactory" factory-method="createDefaultModel" />

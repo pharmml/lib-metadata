@@ -1,0 +1,324 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:j.0="http://www.pharmml.org/ontology/"
+    xmlns:j.1="http://www.pharmml.org/2013/10/PharmMLMetadata#" > 
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#id15">
+    <j.1:elt-hasint>Interindividual random variability on Maximum placebo effect</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000034"/>
+    <j.1:elt-hassymbid>eta_PMAX</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpmpar21">
+    <j.1:elt-hasunit>µg*h/l</j.1:elt-hasunit>
+    <j.1:elt-hasint>Area under the curve for asenapine to achieve half of Emaxs</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000035"/>
+    <j.1:elt-hassymbid>AUC50</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#id13">
+    <j.1:elt-hasint>Maximum placebo effect</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000033"/>
+    <j.1:elt-hassymbid>pop_PMAX</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#i10">
+    <j.1:elt-hasunit>NA</j.1:elt-hasunit>
+    <j.1:elt-hasint>Baseline PANSS score</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000035"/>
+    <j.1:elt-hassymbid>PAN0</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#id9">
+    <j.1:elt-hasint>Interindividual random variability on Baseline PANSS score</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000034"/>
+    <j.1:elt-hassymbid>eta_PAN0</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdcmcov1">
+    <j.1:elt-hasunit>first digit indicating whether the study was phase II or phase III, </j.1:elt-hasunit>
+    <j.1:elt-hasint>Study number </j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000020"/>
+    <j.1:elt-hassymbid>STUD</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdcm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#id17">
+    <j.1:elt-hasint>Power parameter in the Weibull function</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000033"/>
+    <j.1:elt-hassymbid>POW</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#id19">
+    <j.1:elt-hasunit>µg*h/l</j.1:elt-hasunit>
+    <j.1:elt-hasint>Area under the curve for asenapine to achieve half of Emax</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000033"/>
+    <j.1:elt-hassymbid>pop_AUC50</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#id25">
+    <j.1:elt-hasunit>NA</j.1:elt-hasunit>
+    <j.1:elt-hasint>PANSS score predicted</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000041"/>
+    <j.1:elt-hassymbid>PANSS_total</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdsm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdompar0">
+    <j.1:elt-hasint>Additive residual random variability</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000034"/>
+    <j.1:elt-hassymbid>eps</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdom0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#md1">
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#aaemodel1"/>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000005"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpmpar0">
+    <j.1:elt-hasunit>'==1 for &gt; 1 month, ==0 if &lt; 1 month</j.1:elt-hasunit>
+    <j.1:elt-hasint>Indicator of current episode duration </j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000033"/>
+    <j.1:elt-hassymbid>DDU</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdsmvar5">
+    <j.1:elt-hasint>Asenapine effect function of time for time &gt;0</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000041"/>
+    <j.1:elt-hassymbid>EMOD</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdsm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpmpar28">
+    <j.1:elt-hasint>Interindividual random variability on residual variability</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000034"/>
+    <j.1:elt-hassymbid>eta_W</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#id23">
+    <j.1:elt-hasint>Placebo effect function of time</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000041"/>
+    <j.1:elt-hassymbid>PMOD</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdsm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpmpar26">
+    <j.1:elt-hasint>Residual random variability</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000033"/>
+    <j.1:elt-hassymbid>pop_W</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#id7">
+    <j.1:elt-hasunit>NA</j.1:elt-hasunit>
+    <j.1:elt-hasint>Baseline PANSS score</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000033"/>
+    <j.1:elt-hassymbid>pop_PAN0</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#id11">
+    <j.1:elt-hasunit>NA</j.1:elt-hasunit>
+    <j.1:elt-hasint>Proportional difference in PMAX for patients in Phase III </j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000033"/>
+    <j.1:elt-hassymbid>PMAX_PHASEIII</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#id21">
+    <j.1:elt-hasint>Interindividual random variability on AUC50 </j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000034"/>
+    <j.1:elt-hassymbid>eta_AUC50</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpmpar24">
+    <j.1:elt-hasint>Difference in residual random variability in US-based studies </j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000033"/>
+    <j.1:elt-hassymbid>THETA_US</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#id5">
+    <j.1:elt-hasint>Baseline PANSS score for Phase II studies</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000033"/>
+    <j.1:elt-hassymbid>PAN0_II</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdsmvar3">
+    <j.1:elt-hasunit>µg*h/l</j.1:elt-hasunit>
+    <j.1:elt-hasint>Area under the curve for asenapine </j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000041"/>
+    <j.1:elt-hassymbid>AUC</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdsm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdcm0">
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#md1"/>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000009"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpmpar22">
+    <j.1:elt-hasint>Difference in residual random variability for hospitalized patients</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000033"/>
+    <j.1:elt-hassymbid>THETA_HOSP</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdomerr0">
+    <j.1:elt-hasint>PANSS score observed</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000037"/>
+    <j.1:elt-hassymbid>PANSS_total_obs</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdom0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#id16">
+    <j.1:elt-hasunit>day</j.1:elt-hasunit>
+    <j.1:elt-hasint>Time to achieve maximum placebo effect </j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000033"/>
+    <j.1:elt-hassymbid>TP</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#id14">
+    <j.1:elt-hasint>Variance of interindividual variability for PMAX</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000033"/>
+    <j.1:elt-hassymbid>omega_PMAX</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdcmcov2">
+    <j.1:elt-hasunit>==1 US, ==0 non US</j.1:elt-hasunit>
+    <j.1:elt-hasint>Indicator of US study</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000020"/>
+    <j.1:elt-hassymbid>US</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdcm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0">
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#md1"/>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000008"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdcmcov0">
+    <j.1:elt-hasunit>1 = less 2 weeks, 2 = between 2 weeks and 1 month, 3 = 1 - 6 months, 4 = 6 - 12 months, 5 = more than 1 year</j.1:elt-hasunit>
+    <j.1:elt-hasint>Indicator of current episode duration </j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000020"/>
+    <j.1:elt-hassymbid>DDUR</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdcm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#id18">
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000033"/>
+    <j.1:elt-hassymbid>EMAX</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpmpar14">
+    <j.1:elt-hasint>Maximum placebo effect</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000035"/>
+    <j.1:elt-hassymbid>PMAX</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpmpar1">
+    <j.1:elt-hasunit>==0 for Phase II, ==1 for Phase III</j.1:elt-hasunit>
+    <j.1:elt-hasint>Indicator of study phase</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000033"/>
+    <j.1:elt-hassymbid>PHASE</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpmpar29">
+    <j.1:elt-hasint>Residual random variability</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000035"/>
+    <j.1:elt-hassymbid>W</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpmpar25">
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000033"/>
+    <j.1:elt-hassymbid>pop_error</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpmpar27">
+    <j.1:elt-hasint>Variance of interindividual variability for W</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000033"/>
+    <j.1:elt-hassymbid>omega_W</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#id6">
+    <j.1:elt-hasint>Baseline PANSS score for Phase III studies</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000033"/>
+    <j.1:elt-hassymbid>PAN0_III</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#id24">
+    <j.1:elt-hasunit>NA</j.1:elt-hasunit>
+    <j.1:elt-hasint>Asenapine effect </j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000041"/>
+    <j.1:elt-hassymbid>EFF</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdsm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdcmcov3">
+    <j.1:elt-hasunit>==1 yes, ==0 no</j.1:elt-hasunit>
+    <j.1:elt-hasint>Indicator of hospitalization at time of observation </j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000020"/>
+    <j.1:elt-hassymbid>HOSP</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdcm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#id8">
+    <j.1:elt-hasint>Variance of interindividual variability for PAN0</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000033"/>
+    <j.1:elt-hassymbid>omega_PAN0</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#id20">
+    <j.1:elt-hasint>Variance of interindividual variability for AUC50</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000033"/>
+    <j.1:elt-hassymbid>omega_AUC50</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#id22">
+    <j.1:elt-hasint>Covariance of interindividual variability for PAN0 and PMAX </j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000033"/>
+    <j.1:elt-hassymbid>cov_PAN0_PMAX</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#id4">
+    <j.1:elt-hasint>Proportional difference in PAN0 for chronic patients</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000033"/>
+    <j.1:elt-hassymbid>PAN0_CHRON</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdsm0">
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#md1"/>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000010"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#id12">
+    <j.1:elt-hasunit>NA</j.1:elt-hasunit>
+    <j.1:elt-hasint>Maximum placebo effect phase_II </j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000033"/>
+    <j.1:elt-hassymbid>TVPMAX</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#aaemodel1">
+    <j.1:model-has-description>  Modeling and simulation of the time course of asenapine exposure response and dropout patterns in acute schizophrenia.
+              Friberg LE, de Greef R, Kerbusch T, Karlsson MO
+              Clinical pharmacology and therapeutics, 7/2009, Volume 86, Issue 1, pages: 84-91</j.1:model-has-description>
+    <j.1:model-has-author>CS</j.1:model-has-author>
+    <j.1:model-has-modelling-limitations-textual>data up to day 42</j.1:model-has-modelling-limitations-textual>
+    <j.1:model-modelling-question rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0006034"/>
+    <j.1:model-field-purpose rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0001023"/>
+    <j.1:model-type-of-data rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0000411"/>
+    <j.1:model-has-publication-source-quoted>Modeling and simulation were utilized to characterize the efficacy dose response of sublingual asenapine in patients with schizophrenia and to understand the outcomes of six placebo-controlled trials in which placebo responses and dropout rates varied. The time course of total Positive and Negative Syndrome Scale (PANSS) scores was characterized for placebo and asenapine treatments in a pharmacokinetic-pharmacodynamic model in which the asenapine effect was described by an E(max) model, increasing linearly over the 6-week study period. A logistic regression model described the time course of dropouts, with previous PANSS value being the most important predictor. The last observation carried forward (LOCF) time courses were well described in simulations from the combined PANSS + dropout model. The observed trial outcomes were successfully predicted for all the placebo arms and the majority of the treatment arms. Although simulations indicated that the post hoc probability of success of the performed trials was low to moderate, these analyses demonstrated that 5 and 10 mg twice-daily (b.i.d.) doses of asenapine have similar efficacy.</j.1:model-has-publication-source-quoted>
+    <j.1:model-has-publication-source-external-id rdf:resource="http://identifiers.org/pubmed/PMID19387434"/>
+    <j.1:has-pharmml-filename>Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml</j.1:has-pharmml-filename>
+    <j.1:model-study-type rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_000049"/>
+    <j.1:model-tasks-in-scope rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0006001"/>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000001"/>
+    <j.1:model-has-population-characteristic>patients with schizophrenia</j.1:model-has-population-characteristic>
+    <j.1:model-related-to-drug rdf:resource="http://identifiers.org/drugbank/DB06216"/>
+    <j.1:model-modelling-question rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0006036"/>
+    <j.1:model-has-rationale>Integrate data from multiple trials where placebo responses and dropout rates varied</j.1:model-has-rationale>
+    <j.1:has-interpreted-type rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0000007"/>
+    <j.1:model-sampling-type rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0001028"/>
+    <j.1:model-clinical-context rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0000049"/>
+    <j.1:has-interpreted-type rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0000011"/>
+    <j.1:model-research-stage rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0006010"/>
+    <j.1:model-tasks-in-scope rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0006000"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdsmvar2">
+    <j.1:elt-hasint>Time-course parameter for asenapine effect</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000041"/>
+    <j.1:elt-hassymbid>FT</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdsm0"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdom0">
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#md1"/>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000011"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpmpar23">
+    <j.1:elt-hasunit>NA</j.1:elt-hasunit>
+    <j.1:elt-hasint>Proportional difference in residual variability for non-hospitalized patients</j.1:elt-hasint>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000033"/>
+    <j.1:elt-hassymbid>CHOSP</j.1:elt-hassymbid>
+    <j.0:PHARMMLO_0000004 rdf:resource="http://www.pharmml.org/database/metadata/Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem.xml#mdpm0"/>
+  </rdf:Description>
+</rdf:RDF>

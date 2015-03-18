@@ -15,12 +15,10 @@ import java.io.File;
  */
 public class Main {
     public static void main(String[] args) {
-            ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
-            MetadataReader metadataReader = context.getBean(MetadataReaderImpl.class);
-            MetadataMap metadataMap = metadataReader.metadataRead(new File("C:\\Users\\sarala.EBI\\Documents\\GitHub\\pharmml-metadata\\specification\\DDMODEL00000186-metadata.rdf"));
-            MetadataValidator metadataValidator = context.getBean(MetadataValidatorImpl.class);
-            metadataValidator.setMetadataMap(metadataMap);
-            System.out.println(metadataValidator.validationReport());
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
+        MetadataValidator metadataValidator = context.getBean(MetadataValidatorImpl.class);
+        metadataValidator.ddmoreCertified(new File("resources\\example2.xml"));
+        System.out.println(metadataValidator.validationReport());
 
         }
 }
