@@ -15,18 +15,17 @@ import java.util.*;
 public class MetadataValidatorImpl implements MetadataValidator{
 
     private MetadataMap metadataMap;
-    private Model model;
-    private ArrayList<MetadataStatement> metadataStatements = new ArrayList<MetadataStatement>();
+    private ArrayList<MetadataStatement> metadataStatements;
 
-    public MetadataValidatorImpl(Model model, MetadataMap metadataMap) {
-        this.model = model;
+    public MetadataValidatorImpl(MetadataMap metadataMap) {
         this.metadataMap = metadataMap;
     }
 
     @Override
-    public boolean ddmoreCertified(File file) {
-        model.read(file.toURI().toString());
-
+    public boolean ddmoreCertified(String url) {
+        metadataStatements = new ArrayList<MetadataStatement>();
+        Model model = ModelFactory.createDefaultModel();
+        model.read(url);
         HashMap<Resource, ArrayList<Property>> propertiesMap = metadataMap.getPropertiesMap();
         for (Map.Entry<Resource, ArrayList<Property>> resourceEntry : propertiesMap.entrySet()) {
             Property typeProperty = ResourceFactory.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
@@ -59,9 +58,6 @@ public class MetadataValidatorImpl implements MetadataValidator{
         return false;
     }
 
-
-
-
     public int validationLevel(Property property, RDFNode rdfNode){
         ArrayList<Resource> associatedResources = metadataMap.getAssociatedResources(property);
         if(associatedResources==null){
@@ -83,35 +79,8 @@ public class MetadataValidatorImpl implements MetadataValidator{
         }
     }
 
-    public String validationReport(){
-        StringBuffer validationReport = new StringBuffer("Validation Report");
-        validationReport.append("\n");
-        if(metadataStatements.isEmpty()){
-            validationReport.append("This is a valid DDMoRe certified metadata document");
-        }
-        else {
-            validationReport.append("This is not valid DDMoRe certified metadata document. Please provide the following fields.");
-            validationReport.append("\n");
-            for(MetadataStatement metadataStatement : metadataStatements) {
-                switch (metadataStatement.getValidationLevel()) {
-                    case 0:
-                        validationReport.append("Property " + metadataStatement.getProperty() + " is empty.\n");
-                        break;
-                    case 1:
-                        String rdfNodeValue = "";
-                        if(metadataStatement.getRdfNode().isLiteral())
-                            rdfNodeValue = metadataStatement.getRdfNode().asLiteral().getString();
-                        if(metadataStatement.getRdfNode().isResource())
-                            rdfNodeValue = metadataStatement.getRdfNode().asResource().getURI();
-
-                        validationReport.append("Resouce " + metadataStatement.getSubject() + " has a Property " + metadataStatement.getProperty() + " has a value of "+ rdfNodeValue + " which is not one of the allowed values .\n");
-
-                        break;
-                }
-            }
-
-        }
-        return validationReport.toString();
+    public ArrayList<MetadataStatement> getMetadataStatements() {
+        return metadataStatements;
     }
 
 }

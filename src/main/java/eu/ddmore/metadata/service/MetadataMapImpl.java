@@ -1,23 +1,19 @@
 package eu.ddmore.metadata.service;
 
-import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.ResourceFactory;
-import com.sun.xml.internal.bind.v2.runtime.property.PropertyFactory;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.io.IOUtils;
+import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
-
-import static java.nio.charset.Charset.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,14 +26,21 @@ public class MetadataMapImpl implements MetadataMap{
     private HashMap<Resource, ArrayList<Property>> propertiesMap = new HashMap<Resource, ArrayList<Property>>();
     private HashMap<Property, ArrayList<Resource>> ontologyMap = new HashMap<Property, ArrayList<Resource>>();
 
-    public MetadataMapImpl(File propMapFile, File ontoMapFile ) {
-        constructPropMap(propMapFile);
-        constructOntoMap(ontoMapFile);
+    public MetadataMapImpl(String propMap, String ontoMap ) {
+        org.springframework.core.io.Resource propMapResource = new ClassPathResource(propMap);
+        org.springframework.core.io.Resource ontoMapResource = new ClassPathResource(ontoMap);
+        try {
+            constructPropMap(IOUtils.toString(propMapResource.getInputStream(), "UTF-8"));
+            constructOntoMap(IOUtils.toString(ontoMapResource.getInputStream(), "UTF-8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    private void constructPropMap(File propMapFile) {
+    private void constructPropMap(String propMapFile) {
         try {
-            CSVParser csvParser = CSVParser.parse(propMapFile,Charset.forName("UTF-8"), CSVFormat.DEFAULT);
+            CSVParser csvParser = CSVParser.parse(propMapFile, CSVFormat.DEFAULT);
             for (CSVRecord csvRecord : csvParser) {
                 Resource resource = ResourceFactory.createResource(csvRecord.get(0));
                 Property property = ResourceFactory.createProperty(csvRecord.get(1));
@@ -56,9 +59,9 @@ public class MetadataMapImpl implements MetadataMap{
         }
     }
 
-    private void constructOntoMap(File ontoMapFile) {
+    private void constructOntoMap(String ontoMapFile) {
         try {
-            CSVParser csvParser = CSVParser.parse(ontoMapFile,Charset.forName("UTF-8"), CSVFormat.DEFAULT);
+            CSVParser csvParser = CSVParser.parse(ontoMapFile,CSVFormat.DEFAULT);
             for (CSVRecord csvRecord : csvParser) {
                 Property property = ResourceFactory.createProperty(csvRecord.get(0));
                 Resource resource = ResourceFactory.createResource(csvRecord.get(1));

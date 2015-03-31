@@ -1,6 +1,7 @@
 package eu.ddmore.metadata.service;
 
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,6 +11,6 @@ import java.io.File;
  *         Time: 14:37
  */
 public interface MetadataValidator {
-    public boolean ddmoreCertified(File file);
-    public String validationReport();
+    public boolean ddmoreCertified(String file);
+    public ArrayList<MetadataStatement> getMetadataStatements();
 }

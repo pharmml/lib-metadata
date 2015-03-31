@@ -5,7 +5,6 @@ import com.hp.hpl.jena.rdf.model.Resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.

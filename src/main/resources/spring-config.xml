@@ -6,16 +6,25 @@
     <context:annotation-config />
     <context:component-scan base-package="eu.ddmore.metadata"/>
 
+    <bean id="configProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath*:metadata-config.properties</value>
+            </list>
+        </property>
+    </bean>
+
     <bean id="metadataMap" class="eu.ddmore.metadata.service.MetadataMapImpl">
-        <constructor-arg index="0" type="java.io.File" value="property-mapping.csv"/>
-        <constructor-arg index="1" type="java.io.File" value="ontology-mapping.csv"/>
+        <constructor-arg index="0" value="${property-mapping}"/>
+        <constructor-arg index="1" value="${ontology-mapping}"/>
     </bean>
 
     <bean id="metadataValidator" class="eu.ddmore.metadata.service.MetadataValidatorImpl">
-        <constructor-arg name="model" ref="model"/>
         <constructor-arg name="metadataMap" ref="metadataMap"/>
     </bean>
 
-    <bean id="model" class="com.hp.hpl.jena.rdf.model.ModelFactory" factory-method="createDefaultModel" />
+    <bean id="validationReport" class="eu.ddmore.metadata.service.ValidationReportImpl">
+        <constructor-arg name="metadataValidator" ref="metadataValidator"/>
+    </bean>
 
 </beans>

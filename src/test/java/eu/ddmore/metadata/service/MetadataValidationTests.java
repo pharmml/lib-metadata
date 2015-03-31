@@ -8,6 +8,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring-config.xml")
@@ -17,6 +19,13 @@ public class MetadataValidationTests {
 
     @Test
     public void testDdmoreCertified() {
-        org.junit.Assert.assertFalse(metadataValidator.ddmoreCertified(new File("resources\\example2.xml")));
+        URL url = null;
+        try {
+            url = new URL("http://wwwdev.ebi.ac.uk/biomodels/model-repository/model/download/DDMODEL00000413.1?filename=Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem-validated.rdf");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        org.junit.Assert.assertFalse(metadataValidator.ddmoreCertified(url.toString()));
     }
+
 }

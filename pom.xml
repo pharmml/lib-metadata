@@ -44,9 +44,9 @@
         </dependency>
 
         <dependency>
-        	<groupId>org.apache.jena</groupId>
-        	<artifactId>jena-core</artifactId>
-        	<version>2.12.1</version>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-core</artifactId>
+            <version>2.12.1</version>
         </dependency>
 
         <dependency>
@@ -54,10 +54,47 @@
             <artifactId>commons-csv</artifactId>
             <version>1.0</version>
         </dependency>
+
+        <dependency>
+        	<groupId>commons-io</groupId>
+        	<artifactId>commons-io</artifactId>
+        	<version>2.4</version>
+        </dependency>
     </dependencies>
 
     <build>
-        <finalName>SpringApp</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>eu.ddmore.metadata.CLI</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.2.2</version>
+                <configuration>
+                    <goals>deploy</goals>
+                </configuration>
+            </plugin>
+        </plugins>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>2.8</version>
+            </extension>
+        </extensions>
+        <!--<finalName>SpringApp</finalName>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -74,6 +111,22 @@
                     </includes>
                 </configuration>
             </plugin>
-        </plugins>
+        </plugins>-->
     </build>
+
+    <distributionManagement>
+            <repository>
+                <id>ebi-repo</id>
+                <name>EBI Repository</name>
+                <url>scp://ebi-001.ebi.ac.uk/homes/maven/public_html/m2repo</url>
+            </repository>
+            <snapshotRepository>
+                <uniqueVersion>false</uniqueVersion>
+                <id>ebi-repo-snapshots</id>
+                <name>EBI Snapshots Repository</name>
+
+                <url>scp://ebi-001.ebi.ac.uk/homes/maven/public_html/m2repo_snapshots</url>
+            </snapshotRepository>
+    </distributionManagement>
+
 </project>

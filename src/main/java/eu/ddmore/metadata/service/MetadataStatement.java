@@ -41,4 +41,23 @@ public class MetadataStatement {
     public int getValidationLevel() {
         return validationLevel;
     }
+
+    public String validationMessage(){
+        String validationStatement = "";
+        switch (validationLevel) {
+            case 0:
+                validationStatement = "Property " + property + " is empty.";
+                break;
+            case 1:
+                String rdfNodeValue = "";
+                if(rdfNode.isLiteral())
+                    rdfNodeValue = rdfNode.asLiteral().getString();
+                if(rdfNode.isResource())
+                    rdfNodeValue = rdfNode.asResource().getURI();
+
+                validationStatement = "Resource " + subject + " has a Property " + property + " has a value of "+ rdfNodeValue + " which is not one of the allowed values .";
+                break;
+        }
+        return validationStatement;
+    }
 }
