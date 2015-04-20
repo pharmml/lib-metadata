@@ -10,6 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring-config.xml")
@@ -25,7 +26,7 @@ public class MetadataValidationTests {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        org.junit.Assert.assertFalse(metadataValidator.ddmoreCertified(url.toString()));
+        assertFalse(metadataValidator.ddmoreCertified(url.toString()));
     }
 
 }

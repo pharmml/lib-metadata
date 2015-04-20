@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
@@ -30,13 +31,13 @@ public class MetadataMapTests {
     public void testPropertiesMap() {
         Resource resource = ResourceFactory.createResource("http://www.pharmml.org/ontology/PHARMMLO_0000001");
         ArrayList<Property> properties = metadataMap.getAssociatedProperties(resource);
-        org.junit.Assert.assertEquals(properties.size(), 9);
+        assertEquals(9, properties.size());
     }
 
     @Test
     public void testOntologyMap() {
         Property property = ResourceFactory.createProperty("http://www.pharmml.org/2013/10/PharmMLMetadata#model-field-purpose");
         ArrayList<Resource> resources = metadataMap.getAssociatedResources(property);
-        org.junit.Assert.assertEquals(resources.size(),10);
+        assertEquals(10, resources.size());
     }
 }
