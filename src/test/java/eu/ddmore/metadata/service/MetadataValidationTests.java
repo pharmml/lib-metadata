@@ -17,6 +17,8 @@ import static org.junit.Assert.*;
 public class MetadataValidationTests {
     @Autowired
     private MetadataValidator metadataValidator;
+    @Autowired
+    private ValidationReport validationReport;
 
     @Test
     public void testDdmoreCertified() {
@@ -29,4 +31,24 @@ public class MetadataValidationTests {
         assertFalse(metadataValidator.ddmoreCertified(url.toString()));
     }
 
+    @Test
+    public void metadataStatementListIsEmpty() {
+        File f = new File("resources", "example1.xml");
+        assertTrue(f.exists());
+        // TODO Why does the method always return false?
+        assertFalse(metadataValidator.ddmoreCertified(f.toURI().toString()));
+        String exp = "Validation Report: example1.xml\nThis is a valid DDMoRe certified metadata document";
+        assertEquals(exp, validationReport.generateValidationReport(f));
+        // Should metadataStatements be empty after parsing the annotations?
+        assertEquals(0, metadataValidator.getMetadataStatements().size());
+    }
+
+    @Test
+    public void emptyAnnotationFilesAreOK() {
+        File f = new File("resources", "noAnnotations.xml");
+        assertTrue(f.exists());
+        assertFalse(metadataValidator.ddmoreCertified(f.toURI().toString()));
+        String exp = "Validation Report: noAnnotations.xml\nThis is a valid DDMoRe certified metadata document";
+        assertEquals(exp, validationReport.generateValidationReport(f));
+    }
 }
