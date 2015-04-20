@@ -38,6 +38,6 @@ public class MetadataMapTests {
     public void testOntologyMap() {
         Property property = ResourceFactory.createProperty("http://www.pharmml.org/2013/10/PharmMLMetadata#model-field-purpose");
         ArrayList<Resource> resources = metadataMap.getAssociatedResources(property);
-        assertEquals(10, resources.size());
+        assertEquals(14, resources.size());
     }
 }
