@@ -1,0 +1,8 @@
+# all hidden files
+.*
+# don't ignore gitignore
+!.gitignore
+# IntelliJ workspace settings.
+*.iws
+
+target
