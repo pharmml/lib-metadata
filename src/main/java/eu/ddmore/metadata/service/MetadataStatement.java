@@ -1,5 +1,6 @@
 package eu.ddmore.metadata.service;
 
+import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.rdf.model.Resource;
@@ -51,9 +52,9 @@ public class MetadataStatement {
             case 1:
                 String rdfNodeValue = "";
                 if(rdfNode.isLiteral())
-                    rdfNodeValue = rdfNode.asLiteral().getString();
+                    rdfNodeValue = ((Literal)rdfNode).getString();
                 if(rdfNode.isResource())
-                    rdfNodeValue = rdfNode.asResource().getURI();
+                    rdfNodeValue = ((Resource)rdfNode).getURI();
 
                 validationStatement = "Resource " + subject + " has a Property " + property + " has a value of "+ rdfNodeValue + " which is not one of the allowed values .";
                 break;

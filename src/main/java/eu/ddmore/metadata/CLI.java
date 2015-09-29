@@ -1,7 +1,5 @@
 package eu.ddmore.metadata;
 
-import eu.ddmore.metadata.service.MetadataValidator;
-import eu.ddmore.metadata.service.MetadataValidatorImpl;
 import eu.ddmore.metadata.service.ValidationReport;
 import eu.ddmore.metadata.service.ValidationReportImpl;
 import org.springframework.context.ApplicationContext;

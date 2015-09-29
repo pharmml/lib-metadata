@@ -1,5 +1,9 @@
 package eu.ddmore.metadata.service;
 
+import eu.ddmore.metadata.api.MetadataInformationService;
+import eu.ddmore.metadata.api.domain.categories.GenericCategory;
+import eu.ddmore.metadata.api.domain.enums.Concept;
+import eu.ddmore.metadata.impl.MetadataInformationServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,6 +14,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring-config.xml")
@@ -25,7 +32,15 @@ public class MetadataValidationTests {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        org.junit.Assert.assertFalse(metadataValidator.ddmoreCertified(url.toString()));
+        assertFalse(metadataValidator.ddmoreCertified(url.toString()));
     }
+
+/*    @Test
+    public void testMetadataInformationService(){
+        MetadataInformationService mis = new MetadataInformationServiceImpl();
+        mis.initialise();
+        List<GenericCategory> cats = mis.getMetadataInformationFor(Concept.MODEL);
+        System.out.print(cats.size());
+    }*/
 
 }

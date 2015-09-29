@@ -21,7 +21,6 @@ public class MetadataValidatorImpl implements MetadataValidator{
         this.metadataMap = metadataMap;
     }
 
-    @Override
     public boolean ddmoreCertified(String url) {
         metadataStatements = new ArrayList<MetadataStatement>();
         Model model = ModelFactory.createDefaultModel();
@@ -32,7 +31,7 @@ public class MetadataValidatorImpl implements MetadataValidator{
             ResIterator resIterator = model.listSubjectsWithProperty(typeProperty,resourceEntry.getKey());
             if(resIterator!=null) {
                 while (resIterator.hasNext()) {
-                    Resource resource = resIterator.next();
+                    Resource resource = resIterator.nextResource();
                     for (Property property : resourceEntry.getValue()) {
                         StmtIterator stmtIterator = resource.listProperties(property);
                         if (stmtIterator!=null){
@@ -41,7 +40,7 @@ public class MetadataValidatorImpl implements MetadataValidator{
                             }
 
                             while (stmtIterator.hasNext()){
-                                Statement statement = stmtIterator.next();
+                                Statement statement = stmtIterator.nextStatement();
                                 int validationLevel = validationLevel(property,statement.getObject());
                                 if(validationLevel != -1){
                                     metadataStatements.add(new MetadataStatement(resourceEntry.getKey(),property,statement.getObject(),validationLevel));
@@ -67,8 +66,8 @@ public class MetadataValidatorImpl implements MetadataValidator{
             if(rdfNode.isLiteral()){
                 return 1;
             }
-            else {
-                Resource givenOntoResource = rdfNode.asResource();
+            else if(rdfNode.isResource()){
+                Resource givenOntoResource = (Resource)rdfNode;
                 for(Resource validResource: associatedResources){
                     if(validResource.equals(givenOntoResource)){
                         return -1;
@@ -76,6 +75,8 @@ public class MetadataValidatorImpl implements MetadataValidator{
                 }
                 return 1;
             }
+            else
+                return 1;
         }
     }
 

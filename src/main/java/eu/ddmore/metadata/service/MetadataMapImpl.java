@@ -80,17 +80,15 @@ public class MetadataMapImpl implements MetadataMap{
         }
     }
 
-    @Override
+
     public HashMap<Resource, ArrayList<Property>> getPropertiesMap() {
         return propertiesMap;
     }
 
-    @Override
     public ArrayList<Property> getAssociatedProperties(Resource resource) {
         return propertiesMap.get(resource);
     }
 
-    @Override
     public ArrayList<Resource> getAssociatedResources(Property property) {
         return ontologyMap.get(property);
     }

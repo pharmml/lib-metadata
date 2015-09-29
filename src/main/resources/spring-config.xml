@@ -27,4 +27,6 @@
         <constructor-arg name="metadataValidator" ref="metadataValidator"/>
     </bean>
 
+    <bean id="metadataWriter" class="eu.ddmore.metadata.service.MetadataWriterImpl"/>
+
 </beans>
