@@ -12,5 +12,5 @@ import java.util.ArrayList;
  */
 public interface MetadataValidator {
     public boolean ddmoreCertified(String file);
-    public ArrayList<MetadataStatement> getMetadataStatements();
+    public ValidationHandler getValidationHandler();
 }

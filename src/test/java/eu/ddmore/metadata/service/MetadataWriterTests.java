@@ -3,7 +3,6 @@ package eu.ddmore.metadata.service;
 import com.hp.hpl.jena.rdf.model.Literal;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.Resource;
-import org.apache.jena.riot.RDFFormat;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +21,7 @@ import java.util.Calendar;
  *         Time: 10:30
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:spring-config.xml")
+@ContextConfiguration("classpath:metadatalib-spring-config.xml")
 public class MetadataWriterTests {
     @Autowired
     private MetadataWriter metadataWriter;
@@ -37,8 +36,8 @@ public class MetadataWriterTests {
     @Test
     public void testGenerateTriple() {
         Model model = metadataWriter.getModel();
-        assertEquals("http://www.pharmml.org/MODEL0001",model.listSubjects().nextResource().getURI());
-        assertEquals("Test model",((Literal)model.listObjectsOfProperty(model.createProperty("http://www.pharmml.org/metadata#name")).nextNode()).getString());
+        assertEquals("http://www.pharmml.org/MODEL0001", model.listSubjects().nextResource().getURI());
+        assertEquals("Test model", ((Literal) model.listObjectsOfProperty(model.createProperty("http://www.pharmml.org/metadata#name")).nextNode()).getString());
         assertEquals("http://identifiers.org/pubid", ((Resource) model.listObjectsOfProperty(model.createProperty("http://www.pharmml.org/metadata#pubid")).nextNode()).getURI());
     }
 

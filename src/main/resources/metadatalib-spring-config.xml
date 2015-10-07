@@ -6,21 +6,11 @@
     <context:annotation-config />
     <context:component-scan base-package="eu.ddmore.metadata"/>
 
-    <bean id="configProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations">
-            <list>
-                <value>classpath*:metadata-config.properties</value>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="metadataMap" class="eu.ddmore.metadata.service.MetadataMapImpl">
-        <constructor-arg index="0" value="${property-mapping}"/>
-        <constructor-arg index="1" value="${ontology-mapping}"/>
-    </bean>
+    <bean id="metadataInfoService" class="eu.ddmore.metadata.impl.MetadataInformationServiceImpl" init-method="initialise"/>
 
     <bean id="metadataValidator" class="eu.ddmore.metadata.service.MetadataValidatorImpl">
-        <constructor-arg name="metadataMap" ref="metadataMap"/>
+        <constructor-arg name="metadataInfoService" ref="metadataInfoService"/>
+
     </bean>
 
     <bean id="validationReport" class="eu.ddmore.metadata.service.ValidationReportImpl">

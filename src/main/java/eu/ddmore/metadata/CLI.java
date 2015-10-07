@@ -35,7 +35,7 @@ public class CLI {
 
 
 
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("metadatalib-spring-config.xml");
         ValidationReport validationReport = context.getBean(ValidationReportImpl.class);
 
         File file = new File(fileName);
