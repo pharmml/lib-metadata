@@ -39,8 +39,9 @@ public class CLI {
         ValidationReport validationReport = context.getBean(ValidationReportImpl.class);
 
         File file = new File(fileName);
-        if(file.exists()) {
+        /*if(file.exists()) {
             if(file.isFile())
+
                 System.out.println(validationReport.generateValidationReport(file));
             else if (file.isDirectory())
                 System.out.println(validationReport.generateValidationReports(file));
@@ -51,7 +52,7 @@ public class CLI {
             } catch (MalformedURLException e) {
                 System.out.println("Invalid file/folder/url path");
             }
-        }
+        }*/
     }
 
 }

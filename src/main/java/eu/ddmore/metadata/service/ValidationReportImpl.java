@@ -3,6 +3,7 @@ package eu.ddmore.metadata.service;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,47 +20,61 @@ public class ValidationReportImpl implements ValidationReport {
         this.metadataValidator = metadataValidator;
     }
 
-    public String generateValidationReport(File file){
-        metadataValidator.ddmoreCertified(file.toURI().toString());
-        return validationReport(metadataValidator.getValidationHandler(),file.getName());
+    public void generateValidationReport(File file, String submissionId) throws ValidationException {
+        metadataValidator.readModel(file.toURI().toString());
+        metadataValidator.validate(submissionId);
+
     }
 
-    public String generateValidationReports(File directory){
+/*    public String generateValidationReports(File directory){
         StringBuffer stringBuffer = new StringBuffer();
         if(directory.isDirectory()) {
             for (File file : directory.listFiles()) {
-                metadataValidator.ddmoreCertified(file.toURI().toString());
+                metadataValidator.validate(file.toURI().toString());
                 stringBuffer.append(validationReport(metadataValidator.getValidationHandler(), file.getName()));
                 stringBuffer.append("\n\n");
 
             }
         }
         return stringBuffer.toString();
+    }*/
+
+    public void generateValidationReport(URL url,String submissionId) throws ValidationException {
+        metadataValidator.readModel(url.toString());
+        metadataValidator.validate(submissionId);
+
     }
 
-    public String generateValidationReport(URL url){
-        metadataValidator.ddmoreCertified(url.toString());
-        return validationReport(metadataValidator.getValidationHandler(),url.toString());
-    }
+    public ArrayList<String> getValidationStatementList(){
+        ArrayList<String> validationReport = new ArrayList<String>();
 
-    private String validationReport(ValidationHandler validationHandler, String fileName){
-        StringBuffer validationReport = new StringBuffer("Validation Report: " + fileName);
-        validationReport.append("\n");
         boolean valid = true;
-        for(ValidationError validationError: validationHandler.getValidationList()){
+        for(ValidationError validationError: metadataValidator.getValidationHandler().getValidationList()){
             if(ValidationErrorStatus.ERROR.equals(validationError.getErrorStatus())){
                 valid = false;
             }
-            validationReport.append(validationError.getErrorStatus()+ ": " + validationError.getMessage());
-            validationReport.append("\n");
+            validationReport.add(validationError.getErrorStatus() + ": " + validationError.getMessage());
         }
 
         if(valid){
-            validationReport.append("This is a valid DDMoRe certified metadata document");
+            validationReport.add(0,"STATUS: This is a valid DDMoRe certified metadata document.");
         }
         else {
-            validationReport.append("This is not valid DDMoRe certified metadata document. Please provide the fields marked as error.");
+            validationReport.add(0,"STATUS: This is not valid DDMoRe certified metadata document. Please provide the fields marked as error.");
+        }
+        return validationReport;
+    }
+
+    public String getValidationReport(){
+        ArrayList<String> validationStatementList =  getValidationStatementList();
+        StringBuffer validationReport = new StringBuffer();
+        for(String validationStatement: validationStatementList){
+            validationReport.append(validationStatement).append("     ");
         }
         return validationReport.toString();
+    }
+
+    public MetadataValidator getMetadataValidator() {
+        return metadataValidator;
     }
 }

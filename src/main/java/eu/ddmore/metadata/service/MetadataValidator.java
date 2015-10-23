@@ -1,5 +1,7 @@
 package eu.ddmore.metadata.service;
 
+import com.hp.hpl.jena.rdf.model.Model;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -11,6 +13,9 @@ import java.util.ArrayList;
  *         Time: 14:37
  */
 public interface MetadataValidator {
-    public boolean ddmoreCertified(String file);
+    public void readModel(String url);
+    public void validate(String submissionId) throws ValidationException;
     public ValidationHandler getValidationHandler();
+    public ValidationStatus getValidationErrorStatus();
+    public void setModel(Model model);
 }
