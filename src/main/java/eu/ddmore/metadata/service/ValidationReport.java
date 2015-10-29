@@ -2,6 +2,7 @@ package eu.ddmore.metadata.service;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,7 +12,10 @@ import java.net.URL;
  *         Time: 10:59
  */
 public interface ValidationReport {
-    public String generateValidationReport(File file);
-    public String generateValidationReports(File directory);
-    public String generateValidationReport(URL url);
+    void generateValidationReport(File file, String submissionId) throws ValidationException;
+    /*public void generateValidationReports(File directory)*/;
+    void generateValidationReport(URL url, String submissionId) throws ValidationException;
+    ArrayList<String> getValidationStatementList();
+    String getValidationReport();
+    MetadataValidator getMetadataValidator();
 }
