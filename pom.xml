@@ -10,6 +10,7 @@
 
     <properties>
         <spring.version>4.1.1.RELEASE</spring.version>
+        <ddmore-metadata.version>0.0.1-SNAPSHOT</ddmore-metadata.version>
     </properties>
 
     <dependencies>
@@ -69,12 +70,12 @@
         <dependency>
             <groupId>eu.ddmore</groupId>
             <artifactId>lib-metadata-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${ddmore-metadata.version}</version>
         </dependency>
         <dependency>
             <groupId>eu.ddmore</groupId>
             <artifactId>lib-metadata</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${ddmore-metadata.version}</version>
         </dependency>
     </dependencies>
 
