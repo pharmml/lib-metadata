@@ -26,7 +26,7 @@ public class MetadataValidationTests {
     @Autowired
     private MetadataValidator metadataValidator;
     @Autowired
-    private ValidationReport validationReport;
+    private MetadataInformationService metadataInfoService;
 
     @Test(expected = ValidationException.class)
     public void testUntypedModelValidationException() throws ValidationException {
@@ -220,11 +220,8 @@ public class MetadataValidationTests {
 
     @Test
     public void testMetadataInformationService(){
-        ApplicationContext context = new ClassPathXmlApplicationContext("metadatalib-spring-config.xml");
-        MetadataInformationService metadataInfo = context.getBean(MetadataInformationService.class);
-
         Id modelConcept = new Id("Model","http://www.pharmml.org/ontology/PHARMMLO_0000001");
-        List<Section> sections = metadataInfo.findSectionsForConcept(modelConcept);
+        List<Section> sections = metadataInfoService.findSectionsForConcept(modelConcept);
 
         assertEquals(sections.size(),10);
 
