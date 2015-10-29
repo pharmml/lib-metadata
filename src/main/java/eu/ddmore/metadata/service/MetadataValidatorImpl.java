@@ -167,13 +167,13 @@ public class MetadataValidatorImpl implements MetadataValidator{
 
         switch (validationLevel) {
             case -1:
-                validationStatement = subject.getLocalName() + " : " + property.getLocalName() + " : "+ rdfNodeValue + ".";
+                validationStatement = subject.getLocalName() + " : " + property.getURI() + " : "+ rdfNodeValue + ".";
                 break;
             case 0:
-                validationStatement = property.getLocalName() + " is empty.";
+                validationStatement = property.getURI() + " is empty.";
                 break;
             case 1:
-                validationStatement = subject.getLocalName()  + " : " + property.getLocalName()  + " : "+ rdfNodeValue + " is invalid.";
+                validationStatement = subject.getLocalName()  + " : " + property.getURI()  + " : "+ rdfNodeValue + " is invalid.";
                 break;
         }
         return validationStatement;
