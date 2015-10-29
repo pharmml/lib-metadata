@@ -6,6 +6,7 @@ import eu.ddmore.metadata.api.MetadataInformationService;
 import eu.ddmore.metadata.api.domain.*;
 import eu.ddmore.metadata.api.domain.enums.ValueSetType;
 import eu.ddmore.metadata.api.domain.sections.Section;
+import eu.ddmore.metadata.api.domain.values.Value;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -72,7 +73,7 @@ public class MetadataValidatorImpl implements MetadataValidator{
     private void validateModelConcept(Resource resource) throws ValidationException {
         Id modelConcept = new Id("Model","http://www.pharmml.org/ontology/PHARMMLO_0000001");
         List<Section> sections = metadataInfoService.findSectionsForConcept(modelConcept);
-        List<eu.ddmore.metadata.api.domain.Property> requiredProperties = getRequiredProperties(sections);
+        List<eu.ddmore.metadata.api.domain.properties.Property> requiredProperties = getRequiredProperties(sections);
 
         logger.info("Number of required properties for the concept" + modelConcept.getLabel() + " is " + requiredProperties.size());
 
@@ -85,8 +86,8 @@ public class MetadataValidatorImpl implements MetadataValidator{
 
     }
 
-    private void validate(List<eu.ddmore.metadata.api.domain.Property> requiredProperties, Resource resource)  {
-         for (eu.ddmore.metadata.api.domain.Property requiredProperty : requiredProperties) {
+    private void validate(List<eu.ddmore.metadata.api.domain.properties.Property> requiredProperties, Resource resource)  {
+         for (eu.ddmore.metadata.api.domain.properties.Property requiredProperty : requiredProperties) {
                 Property property = ResourceFactory.createProperty(requiredProperty.getPropertyId().getUri());
                 StmtIterator stmtIterator = resource.listProperties(property);
                 if (stmtIterator!=null){
@@ -111,11 +112,11 @@ public class MetadataValidatorImpl implements MetadataValidator{
     }
 
 
-    private List<eu.ddmore.metadata.api.domain.Property> getRequiredProperties(List<Section> sections){
-        List<eu.ddmore.metadata.api.domain.Property> requiredProperties = new ArrayList<eu.ddmore.metadata.api.domain.Property>();
+    private List<eu.ddmore.metadata.api.domain.properties.Property> getRequiredProperties(List<Section> sections){
+        List<eu.ddmore.metadata.api.domain.properties.Property> requiredProperties = new ArrayList<eu.ddmore.metadata.api.domain.properties.Property>();
 
         for(Section section: sections) {
-            for(eu.ddmore.metadata.api.domain.Property property: metadataInfoService.findPropertiesForSection(section)){
+            for(eu.ddmore.metadata.api.domain.properties.Property property: metadataInfoService.findPropertiesForSection(section)){
                 if(property.isRequired()){
                     requiredProperties.add(property);
                 }
@@ -125,7 +126,7 @@ public class MetadataValidatorImpl implements MetadataValidator{
 
     }
 
-    public int validationLevel(eu.ddmore.metadata.api.domain.Property property, RDFNode rdfNode){
+    public int validationLevel(eu.ddmore.metadata.api.domain.properties.Property property, RDFNode rdfNode){
         if(property.getValueSetType().equals(ValueSetType.TEXT)){
             return -1;
         }
@@ -167,13 +168,13 @@ public class MetadataValidatorImpl implements MetadataValidator{
 
         switch (validationLevel) {
             case -1:
-                validationStatement = subject.getLocalName() + " : " + property.getURI() + " : "+ rdfNodeValue + ".";
+                validationStatement = subject.getLocalName() + " : " + property.getLocalName() + " : "+ rdfNodeValue + ".";
                 break;
             case 0:
-                validationStatement = property.getURI() + " is empty.";
+                validationStatement = property.getLocalName() + " is empty.";
                 break;
             case 1:
-                validationStatement = subject.getLocalName()  + " : " + property.getURI()  + " : "+ rdfNodeValue + " is invalid.";
+                validationStatement = subject.getLocalName()  + " : " + property.getLocalName()  + " : "+ rdfNodeValue + " is invalid.";
                 break;
         }
         return validationStatement;
