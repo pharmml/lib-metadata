@@ -77,6 +77,12 @@
             <artifactId>lib-metadata</artifactId>
             <version>${ddmore-metadata.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>net.biomodels.jummp</groupId>
+            <artifactId>AnnotationStore</artifactId>
+            <version>0.2.3</version>
+        </dependency>
     </dependencies>
 
     <build>

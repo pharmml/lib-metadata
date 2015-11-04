@@ -1,3 +1,19 @@
+/*
+ * Copyright 2015 EMBL-EBI
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package eu.ddmore.metadata.service;
 
 import com.hp.hpl.jena.rdf.model.Model;
@@ -7,6 +23,7 @@ import eu.ddmore.metadata.api.MetadataInformationService;
 import eu.ddmore.metadata.api.domain.Id;
 import eu.ddmore.metadata.api.domain.sections.Section;
 import eu.ddmore.metadata.impl.MetadataInformationServiceImpl;
+import net.biomodels.jummp.core.model.ValidationState;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -160,7 +177,7 @@ public class MetadataValidationTests {
         assertEquals(errorList.get(6).getErrorStatus(),ValidationErrorStatus.INFO);
         assertEquals(errorList.get(7).getErrorStatus(), ValidationErrorStatus.ERROR);
 
-        assertEquals(metadataValidator.getValidationErrorStatus(), ValidationStatus.CONDITIONALLY_APPROVED);
+        assertEquals(metadataValidator.getValidationErrorStatus(), ValidationState.CONDITIONALLY_APPROVED);
     }
 
     @Test
@@ -214,7 +231,7 @@ public class MetadataValidationTests {
             e.printStackTrace();
         }
 
-        assertEquals(metadataValidator.getValidationErrorStatus(), ValidationStatus.APPROVED);
+        assertEquals(metadataValidator.getValidationErrorStatus(), ValidationState.APPROVED);
     }
 
 

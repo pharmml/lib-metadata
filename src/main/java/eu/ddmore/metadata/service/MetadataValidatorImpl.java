@@ -7,6 +7,7 @@ import eu.ddmore.metadata.api.domain.*;
 import eu.ddmore.metadata.api.domain.enums.ValueSetType;
 import eu.ddmore.metadata.api.domain.sections.Section;
 import eu.ddmore.metadata.api.domain.values.Value;
+import net.biomodels.jummp.core.model.ValidationState;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -184,16 +185,16 @@ public class MetadataValidatorImpl implements MetadataValidator{
         return validationHandler;
     }
 
-    public ValidationStatus getValidationErrorStatus(){
+    public ValidationState getValidationErrorStatus(){
         if(validationHandler.getValidationList().isEmpty())
-            return ValidationStatus.APPROVE;
+            return ValidationState.APPROVE;
         for(ValidationError validationError: validationHandler.getValidationList()){
             if(validationError.getErrorStatus()==ValidationErrorStatus.ERROR){
-                return ValidationStatus.CONDITIONALLY_APPROVED;
+                return ValidationState.CONDITIONALLY_APPROVED;
             }
         }
 
-        return ValidationStatus.APPROVED;
+        return ValidationState.APPROVED;
     }
 
     public void setModel(Model model) {
