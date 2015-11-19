@@ -17,7 +17,7 @@ public class Main {
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("metadatalib-spring-config.xml");
         ValidationReport validationReport = context.getBean(ValidationReportImpl.class);
-        validationReport.generateValidationReport(new File("resources\\Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem-validated.rdf"),"MODEL0000000002");
+        validationReport.generateValidationReport(new File("resources\\Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem-validated.rdf"));
         System.out.print(validationReport.getValidationReport());
         //System.out.print(validationReport.generateValidationReports(new File("resources")));
         /*try {

@@ -37,13 +37,13 @@ public class MetadataValidatorImpl implements MetadataValidator{
         model.read(url);
     }
 
-    public void validate(String submissionId) throws ValidationException {
+    public void validate() throws ValidationException {
         validationHandler = new ValidationHandler();
-        Resource resource = validateBasics(submissionId);
+        Resource resource = validateBasics();
         validateModelConcept(resource);
     }
 
-    private Resource validateBasics(String submissionId) throws ValidationException {
+    private Resource validateBasics() throws ValidationException {
         Resource resourceEntry = ResourceFactory.createResource("http://www.pharmml.org/ontology/PHARMMLO_0000001");
         Property typeProperty = ResourceFactory.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
         ResIterator resIterator = model.listSubjectsWithProperty(typeProperty, resourceEntry);
@@ -52,21 +52,7 @@ public class MetadataValidatorImpl implements MetadataValidator{
             throw new ValidationException("Invalid RDF document. The metadata is not be typed");
         }
 
-        Resource resource = resIterator.nextResource();
-
-        NodeIterator nodeIterator = model.listObjectsOfProperty(resource, ResourceFactory.createProperty("http://www.pharmml.org/2013/10/PharmMLMetadata#has-submissionId"));
-        if (!nodeIterator.hasNext()){
-            throw new ValidationException("Invalid RDF document. The metadata is not associated with a submission");
-        }
-        else{
-            RDFNode rdfNode = nodeIterator.nextNode();
-            if(rdfNode.isLiteral()) {
-                if(!((Literal)rdfNode).getString().equals(submissionId)){
-                    throw new ValidationException("Invalid RDF document. The metadata is not associated with the correct submission");
-                }
-            }
-        }
-        return resource;
+        return resIterator.nextResource();
 
     }
 
@@ -93,17 +79,17 @@ public class MetadataValidatorImpl implements MetadataValidator{
                 StmtIterator stmtIterator = resource.listProperties(property);
                 if (stmtIterator!=null){
                     if(!stmtIterator.hasNext()){
-                        validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.ERROR, validationMessage(resource, property, null, 0)));
+                        validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.ERROR, validationMessage(resource, requiredProperty, null, 0)));
                     }
                     while (stmtIterator.hasNext()){
                         Statement statement = stmtIterator.nextStatement();
 
                         int validationLevel = validationLevel(requiredProperty,statement.getObject());
                         if(validationLevel != -1){
-                            validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.ERROR, validationMessage(resource, property, statement.getObject(), validationLevel)));
+                            validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.ERROR, validationMessage(resource, requiredProperty, statement.getObject(), validationLevel)));
                         }
                         else
-                            validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.INFO,validationMessage(resource,property,statement.getObject(),validationLevel)));
+                            validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.INFO,validationMessage(resource,requiredProperty,statement.getObject(),validationLevel)));
 
                     }
                 }
@@ -153,7 +139,7 @@ public class MetadataValidatorImpl implements MetadataValidator{
         }
     }
 
-    private String validationMessage(Resource subject, Property property, RDFNode rdfNode, int validationLevel){
+    private String validationMessage(Resource subject, eu.ddmore.metadata.api.domain.properties.Property property, RDFNode rdfNode, int validationLevel){
         String validationStatement = "";
         String rdfNodeValue = "";
         if(rdfNode!=null) {
@@ -169,13 +155,13 @@ public class MetadataValidatorImpl implements MetadataValidator{
 
         switch (validationLevel) {
             case -1:
-                validationStatement = subject.getLocalName() + " : " + property.getLocalName() + " : "+ rdfNodeValue + ".";
+                validationStatement = subject.getLocalName() + " " + property.getPropertyId().getLabel() + " is "+ rdfNodeValue + ".";
                 break;
             case 0:
-                validationStatement = property.getLocalName() + " is empty.";
+                validationStatement = property.getPropertyId().getLabel() + " is empty.";
                 break;
             case 1:
-                validationStatement = subject.getLocalName()  + " : " + property.getLocalName()  + " : "+ rdfNodeValue + " is invalid.";
+                validationStatement = subject.getLocalName()  + " " + property.getPropertyId().getLabel()  + " "+ rdfNodeValue + " is invalid.";
                 break;
         }
         return validationStatement;

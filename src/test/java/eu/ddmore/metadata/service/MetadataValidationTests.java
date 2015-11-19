@@ -51,39 +51,8 @@ public class MetadataValidationTests {
         String metadataNS = "http://www.pharmml.org/2013/10/PharmMLMetadata#";
 
         Resource resource = model.createResource("http://www.pharmml.org/database/metadata/MODEL001#model001");
-        com.hp.hpl.jena.rdf.model.Property property = model.createProperty(metadataNS + "has-submissionId");
-        model.add( resource, property, "MODEL001" );
         metadataValidator.setModel(model);
-        metadataValidator.validate("MODEL001");
-    }
-
-    @Test(expected = ValidationException.class)
-    public void testMissingSubmissionIdValidationException() throws ValidationException {
-        Model model = ModelFactory.createDefaultModel();
-        Resource resource = model.createResource("http://www.pharmml.org/database/metadata/MODEL001#model001");
-        com.hp.hpl.jena.rdf.model.Property property = model.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-        Resource modelResource = model.createResource("http://www.pharmml.org/ontology/PHARMMLO_0000001");
-        model.add( resource, property, modelResource );
-        metadataValidator.setModel(model);
-        metadataValidator.validate("MODEL001");
-    }
-
-    @Test(expected = ValidationException.class)
-    public void testInValidSubmissionIDValidationException() throws ValidationException {
-        Model model = ModelFactory.createDefaultModel();
-        String metadataNS = "http://www.pharmml.org/2013/10/PharmMLMetadata#";
-        Resource resource = model.createResource("http://www.pharmml.org/database/metadata/MODEL001#model001");
-        com.hp.hpl.jena.rdf.model.Property property;
-
-        property= model.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-        Resource modelResource = model.createResource("http://www.pharmml.org/ontology/PHARMMLO_0000001");
-        model.add( resource, property, modelResource );
-
-        property = model.createProperty(metadataNS + "has-submissionId");
-        model.add( resource, property, "MODEL001" );
-
-        metadataValidator.setModel(model);
-        metadataValidator.validate("MODEL002");
+        metadataValidator.validate();
     }
 
     @Test
@@ -96,21 +65,18 @@ public class MetadataValidationTests {
         Resource modelResource = model.createResource("http://www.pharmml.org/ontology/PHARMMLO_0000001");
         model.add( resource, property, modelResource );
 
-        property = model.createProperty(metadataNS + "has-submissionId");
-        model.add(resource, property, "MODEL001");
-
         metadataValidator.setModel(model);
         try {
-            metadataValidator.validate("MODEL001");
+            metadataValidator.validate();
             ArrayList<ValidationError> errorList = metadataValidator.getValidationHandler().getValidationList();
-            assertEquals("model-has-name is empty.", errorList.get(0).getMessage());
-            assertEquals("model-has-author is empty.", errorList.get(1).getMessage());
-            assertEquals("model-has-description is empty.", errorList.get(2).getMessage());
-            assertEquals("model-has-description-short is empty.", errorList.get(3).getMessage());
-            assertEquals("model-modelling-question is empty.", errorList.get(4).getMessage());
-            assertEquals("model-research-stage is empty.", errorList.get(5).getMessage());
-            assertEquals("model-field-purpose is empty.", errorList.get(6).getMessage());
-            assertEquals("model-tasks-in-scope is empty.", errorList.get(7).getMessage());
+            assertEquals("name of model is empty.", errorList.get(0).getMessage());
+            assertEquals("author of model is empty.", errorList.get(1).getMessage());
+            assertEquals("description of model is empty.", errorList.get(2).getMessage());
+            assertEquals("description of model is empty.", errorList.get(3).getMessage());
+            assertEquals("modelling question is empty.", errorList.get(4).getMessage());
+            assertEquals("nature of research is empty.", errorList.get(5).getMessage());
+            assertEquals("therapeutic area is empty.", errorList.get(6).getMessage());
+            assertEquals("tasks in scope is empty.", errorList.get(7).getMessage());
         } catch (ValidationException e) {
             e.printStackTrace();
         }
@@ -127,9 +93,6 @@ public class MetadataValidationTests {
         property = model.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
         Resource modelResource = model.createResource("http://www.pharmml.org/ontology/PHARMMLO_0000001");
         model.add( resource, property, modelResource );
-
-        property = model.createProperty(metadataNS + "has-submissionId");
-        model.add( resource, property, "MODEL001" );
 
         property = model.createProperty(metadataNS + "model-has-name");
         model.add( resource, property, "model 001" );
@@ -162,7 +125,7 @@ public class MetadataValidationTests {
         metadataValidator.setModel(model);
 
         try {
-            metadataValidator.validate("MODEL001");
+            metadataValidator.validate();
         } catch (ValidationException e) {
             e.printStackTrace();
         }
@@ -191,9 +154,6 @@ public class MetadataValidationTests {
         property = model.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
         Resource modelResource = model.createResource("http://www.pharmml.org/ontology/PHARMMLO_0000001");
         model.add( resource, property, modelResource );
-
-        property = model.createProperty(metadataNS + "has-submissionId");
-        model.add( resource, property, "MODEL001" );
 
         property = model.createProperty(metadataNS + "model-has-name");
         model.add( resource, property, "model 001" );
@@ -226,7 +186,7 @@ public class MetadataValidationTests {
         metadataValidator.setModel(model);
 
         try {
-            metadataValidator.validate("MODEL001");
+            metadataValidator.validate();
         } catch (ValidationException e) {
             e.printStackTrace();
         }
