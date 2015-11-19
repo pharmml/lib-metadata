@@ -20,9 +20,9 @@ public class ValidationReportImpl implements ValidationReport {
         this.metadataValidator = metadataValidator;
     }
 
-    public void generateValidationReport(File file, String submissionId) throws ValidationException {
+    public void generateValidationReport(File file) throws ValidationException {
         metadataValidator.readModel(file.toURI().toString());
-        metadataValidator.validate(submissionId);
+        metadataValidator.validate();
 
     }
 
@@ -39,9 +39,9 @@ public class ValidationReportImpl implements ValidationReport {
         return stringBuffer.toString();
     }*/
 
-    public void generateValidationReport(URL url,String submissionId) throws ValidationException {
+    public void generateValidationReport(URL url) throws ValidationException {
         metadataValidator.readModel(url.toString());
-        metadataValidator.validate(submissionId);
+        metadataValidator.validate();
 
     }
 
@@ -60,7 +60,7 @@ public class ValidationReportImpl implements ValidationReport {
             validationReport.add(0,"STATUS: This is a valid DDMoRe certified metadata document.");
         }
         else {
-            validationReport.add(0,"STATUS: This is not valid DDMoRe certified metadata document. Please provide the fields marked as error.");
+            validationReport.add(0,"STATUS: This is not a valid DDMoRe certified metadata document. Please provide the fields marked as error.");
         }
         return validationReport;
     }

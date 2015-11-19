@@ -31,7 +31,7 @@ import java.util.ArrayList;
  */
 public interface MetadataValidator {
     public void readModel(String url);
-    public void validate(String submissionId) throws ValidationException;
+    public void validate() throws ValidationException;
     public ValidationHandler getValidationHandler();
     public ValidationState getValidationErrorStatus();
     public void setModel(Model model);

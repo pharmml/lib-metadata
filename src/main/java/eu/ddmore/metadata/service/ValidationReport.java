@@ -12,9 +12,9 @@ import java.util.ArrayList;
  *         Time: 10:59
  */
 public interface ValidationReport {
-    void generateValidationReport(File file, String submissionId) throws ValidationException;
+    void generateValidationReport(File file) throws ValidationException;
     /*public void generateValidationReports(File directory)*/;
-    void generateValidationReport(URL url, String submissionId) throws ValidationException;
+    void generateValidationReport(URL url) throws ValidationException;
     ArrayList<String> getValidationStatementList();
     String getValidationReport();
     MetadataValidator getMetadataValidator();
