@@ -11,6 +11,7 @@ import net.biomodels.jummp.core.model.ValidationState;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.io.File;
 import java.util.*;
 
 /**
@@ -22,14 +23,39 @@ import java.util.*;
  */
 public class MetadataValidatorImpl implements MetadataValidator{
 
+    /**
+     * The class logger.
+     */
     private static final Log logger = LogFactory.getLog(MetadataValidatorImpl.class);
+    /**
+     * Flag indicating the verbosity of the class logger.
+     */
+    private static final boolean IS_DEBUG_ENABLED = logger.isDebugEnabled();
+
     private MetadataInformationService metadataInfoService;
     private Model model;
     private ValidationHandler validationHandler;
 
-
     public MetadataValidatorImpl(MetadataInformationService metadataInfoService) {
         this.metadataInfoService = metadataInfoService;
+    }
+
+    /**
+     * Reads annotations from the supplied file
+     *
+     */
+    public Model read(File file) throws IllegalArgumentException {
+        if (null == file || !(file.canRead())) {
+            throw new IllegalArgumentException("Please pass a file that I have read access to.");
+        }
+        if (IS_DEBUG_ENABLED) {
+            logger.debug("Started reading annotations from " + file.getName());
+        }
+        readModel(file.toURI().toString());
+        if (IS_DEBUG_ENABLED) {
+            logger.debug("Finished reading annotations from " + file.getName());
+        }
+        return this.model;
     }
 
     public void readModel(String url){
