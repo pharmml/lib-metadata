@@ -8,9 +8,21 @@ import eu.ddmore.metadata.api.domain.enums.ValueSetType;
 import eu.ddmore.metadata.api.domain.sections.Section;
 import eu.ddmore.metadata.api.domain.values.Value;
 import net.biomodels.jummp.core.model.ValidationState;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.*;
 
 /**
@@ -94,10 +106,7 @@ public class MetadataValidatorImpl implements MetadataValidator{
                     }
                 }
             }
-
-
     }
-
 
     private List<eu.ddmore.metadata.api.domain.properties.Property> getRequiredProperties(List<Section> sections){
         List<eu.ddmore.metadata.api.domain.properties.Property> requiredProperties = new ArrayList<eu.ddmore.metadata.api.domain.properties.Property>();
@@ -149,8 +158,10 @@ public class MetadataValidatorImpl implements MetadataValidator{
                     rdfNodeValue = rdfNodeValue.substring(0, 50)+ "...";
                 }
             }
-            else if (rdfNode.isResource())
-                rdfNodeValue = ((Resource) rdfNode).getLocalName() ;
+            else if (rdfNode.isResource()) {
+                rdfNodeValue = ((Resource) rdfNode).getLocalName();
+                rdfNodeValue = getOntologyLabel(rdfNodeValue);
+            }
         }
 
         switch (validationLevel) {
@@ -165,6 +176,25 @@ public class MetadataValidatorImpl implements MetadataValidator{
                 break;
         }
         return validationStatement;
+    }
+
+    private String getOntologyLabel(String rdfNodeValue){
+        String urlString = "http://open-physiology.org:20080/labels/"+rdfNodeValue+"?json=true";
+        try {
+            URL url = new URL(urlString);
+            JSONTokener tokener = new JSONTokener(IOUtils.toString(url.openStream()));
+            JSONArray array = new JSONArray(tokener);
+            // The first label is picked
+            if (array != null && array.length() >= 1){
+                rdfNodeValue = array.get(0).toString();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return rdfNodeValue;
+
     }
 
     public ValidationHandler getValidationHandler() {

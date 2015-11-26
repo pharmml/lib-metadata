@@ -10,7 +10,7 @@
 
     <properties>
         <spring.version>4.1.1.RELEASE</spring.version>
-        <ddmore-metadata.version>0.0.2-SNAPSHOT</ddmore-metadata.version>
+        <ddmore-metadata.version>0.0.3-SNAPSHOT</ddmore-metadata.version>
     </properties>
 
     <dependencies>
@@ -83,6 +83,13 @@
             <artifactId>AnnotationStore</artifactId>
             <version>0.2.4</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20151123</version>
+        </dependency>
+
     </dependencies>
 
     <build>
