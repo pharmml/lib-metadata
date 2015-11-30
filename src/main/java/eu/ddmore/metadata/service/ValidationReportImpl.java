@@ -51,16 +51,18 @@ public class ValidationReportImpl implements ValidationReport {
         boolean valid = true;
         for(ValidationError validationError: metadataValidator.getValidationHandler().getValidationList()){
             if(ValidationErrorStatus.ERROR.equals(validationError.getErrorStatus())){
+                String validationMesssage = validationError.getMessage();
+                validationMesssage = validationMesssage.substring(0, 1).toUpperCase() + validationMesssage.substring(1);
+                validationReport.add(validationMesssage);
                 valid = false;
             }
-            validationReport.add(validationError.getErrorStatus() + ": " + validationError.getMessage());
         }
 
         if(valid){
-            validationReport.add(0,"STATUS: This is a valid DDMoRe certified metadata document.");
+            validationReport.add(0,"Annotations are correct.");
         }
         else {
-            validationReport.add(0,"STATUS: This is not a valid DDMoRe certified metadata document. Please provide the fields marked as error.");
+            validationReport.add(0,"Please correct the following annotations:");
         }
         return validationReport;
     }

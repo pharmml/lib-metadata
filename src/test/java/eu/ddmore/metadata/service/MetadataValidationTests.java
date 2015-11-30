@@ -72,7 +72,7 @@ public class MetadataValidationTests {
             assertEquals("name of model is empty.", errorList.get(0).getMessage());
             assertEquals("author of model is empty.", errorList.get(1).getMessage());
             assertEquals("description of model is empty.", errorList.get(2).getMessage());
-            assertEquals("description of model is empty.", errorList.get(3).getMessage());
+            assertEquals("short description of model is empty.", errorList.get(3).getMessage());
             assertEquals("modelling question is empty.", errorList.get(4).getMessage());
             assertEquals("nature of research is empty.", errorList.get(5).getMessage());
             assertEquals("therapeutic area is empty.", errorList.get(6).getMessage());

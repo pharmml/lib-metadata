@@ -6,6 +6,7 @@ import eu.ddmore.metadata.api.MetadataInformationService;
 import eu.ddmore.metadata.api.domain.*;
 import eu.ddmore.metadata.api.domain.enums.ValueSetType;
 import eu.ddmore.metadata.api.domain.sections.Section;
+import eu.ddmore.metadata.api.domain.values.CompositeValue;
 import eu.ddmore.metadata.api.domain.values.Value;
 import net.biomodels.jummp.core.model.ValidationState;
 import org.apache.commons.io.IOUtils;
@@ -123,10 +124,17 @@ public class MetadataValidatorImpl implements MetadataValidator{
     }
 
     public int validationLevel(eu.ddmore.metadata.api.domain.properties.Property property, RDFNode rdfNode){
+        List<Value> associatedResources = null;
         if(property.getValueSetType().equals(ValueSetType.TEXT)){
             return -1;
         }
-        List<Value> associatedResources = metadataInfoService.findValuesForProperty(property);
+        else if(property.getValueSetType().equals(ValueSetType.LIST)){
+            associatedResources = metadataInfoService.findValuesForProperty(property);
+        }
+        else if(property.getValueSetType().equals(ValueSetType.TREE)){
+            associatedResources = getassociatedResourcesFromTree(metadataInfoService.findValuesForProperty(property));
+        }
+
         if(associatedResources==null){
             return -1;
         }
@@ -148,6 +156,21 @@ public class MetadataValidatorImpl implements MetadataValidator{
         }
     }
 
+    private List<Value> getassociatedResourcesFromTree(List<Value> associatedResources){
+        List<Value> resouces = new ArrayList<Value>();
+        for(Value validResource: associatedResources){
+            if(validResource.isValueTree()) {
+                CompositeValue compositeValue = (CompositeValue) validResource;
+                resouces.addAll(compositeValue.getValues());
+                getassociatedResourcesFromTree(compositeValue.getValues());
+            }
+            else return associatedResources;
+        }
+        associatedResources.addAll(resouces);
+        return associatedResources;
+
+    }
+
     private String validationMessage(Resource subject, eu.ddmore.metadata.api.domain.properties.Property property, RDFNode rdfNode, int validationLevel){
         String validationStatement = "";
         String rdfNodeValue = "";
@@ -166,13 +189,13 @@ public class MetadataValidatorImpl implements MetadataValidator{
 
         switch (validationLevel) {
             case -1:
-                validationStatement = subject.getLocalName() + " " + property.getPropertyId().getLabel() + " is "+ rdfNodeValue + ".";
+                validationStatement = property.getPropertyId().getLabel() + " is "+ rdfNodeValue + ".";
                 break;
             case 0:
                 validationStatement = property.getPropertyId().getLabel() + " is empty.";
                 break;
             case 1:
-                validationStatement = subject.getLocalName()  + " " + property.getPropertyId().getLabel()  + " "+ rdfNodeValue + " is invalid.";
+                validationStatement = property.getPropertyId().getLabel()  + " "+ rdfNodeValue + " is invalid.";
                 break;
         }
         return validationStatement;
@@ -191,7 +214,7 @@ public class MetadataValidatorImpl implements MetadataValidator{
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return rdfNodeValue;
 
