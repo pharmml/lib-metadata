@@ -51,8 +51,7 @@ public class MetadataValidationTests {
         String metadataNS = "http://www.pharmml.org/2013/10/PharmMLMetadata#";
 
         Resource resource = model.createResource("http://www.pharmml.org/database/metadata/MODEL001#model001");
-        metadataValidator.setModel(model);
-        metadataValidator.validate();
+        metadataValidator.validate(model);
     }
 
     @Test
@@ -63,20 +62,27 @@ public class MetadataValidationTests {
 
         com.hp.hpl.jena.rdf.model.Property property = model.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
         Resource modelResource = model.createResource("http://www.pharmml.org/ontology/PHARMMLO_0000001");
-        model.add( resource, property, modelResource );
+        model.add(resource, property, modelResource);
 
-        metadataValidator.setModel(model);
         try {
-            metadataValidator.validate();
+            metadataValidator.validate(model);
             ArrayList<ValidationError> errorList = metadataValidator.getValidationHandler().getValidationList();
-            assertEquals("name of model is empty.", errorList.get(0).getMessage());
-            assertEquals("author of model is empty.", errorList.get(1).getMessage());
-            assertEquals("description of model is empty.", errorList.get(2).getMessage());
-            assertEquals("short description of model is empty.", errorList.get(3).getMessage());
-            assertEquals("modelling question is empty.", errorList.get(4).getMessage());
-            assertEquals("nature of research is empty.", errorList.get(5).getMessage());
-            assertEquals("therapeutic area is empty.", errorList.get(6).getMessage());
-            assertEquals("tasks in scope is empty.", errorList.get(7).getMessage());
+            assertEquals("http://www.pharmml.org/2013/10/PharmMLMetadata#model-has-name", errorList.get(0).getQualifier());
+            assertEquals(" is empty.", errorList.get(0).getMessage());
+            assertEquals("http://www.pharmml.org/2013/10/PharmMLMetadata#model-has-author", errorList.get(1).getQualifier());
+            assertEquals(" is empty.", errorList.get(1).getMessage());
+            assertEquals("http://www.pharmml.org/2013/10/PharmMLMetadata#model-has-description", errorList.get(2).getQualifier());
+            assertEquals(" is empty.", errorList.get(2).getMessage());
+            assertEquals("http://www.pharmml.org/2013/10/PharmMLMetadata#model-has-description-short", errorList.get(3).getQualifier());
+            assertEquals(" is empty.", errorList.get(3).getMessage());
+            assertEquals("http://www.pharmml.org/2013/10/PharmMLMetadata#model-modelling-question", errorList.get(4).getQualifier());
+            assertEquals(" is empty.", errorList.get(4).getMessage());
+            assertEquals("http://www.pharmml.org/2013/10/PharmMLMetadata#model-research-stage", errorList.get(5).getQualifier());
+            assertEquals(" is empty.", errorList.get(5).getMessage());
+            assertEquals("http://www.pharmml.org/2013/10/PharmMLMetadata#model-field-purpose", errorList.get(6).getQualifier());
+            assertEquals(" is empty.", errorList.get(6).getMessage());
+            assertEquals("http://www.pharmml.org/2013/10/PharmMLMetadata#model-tasks-in-scope", errorList.get(7).getQualifier());
+            assertEquals(" is empty.", errorList.get(7).getMessage());
         } catch (ValidationException e) {
             e.printStackTrace();
         }
@@ -120,25 +126,17 @@ public class MetadataValidationTests {
 
         property = model.createProperty(metadataNS + "model-tasks-in-scope");
         modelResource = model.createResource("http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_test");
-        model.add( resource, property, modelResource );
-
-        metadataValidator.setModel(model);
+        model.add(resource, property, modelResource);
 
         try {
-            metadataValidator.validate();
+            metadataValidator.validate(model);
         } catch (ValidationException e) {
             e.printStackTrace();
         }
 
         ArrayList<ValidationError> errorList = metadataValidator.getValidationHandler().getValidationList();
-        assertEquals(errorList.get(0).getErrorStatus(),ValidationErrorStatus.INFO);
-        assertEquals(errorList.get(1).getErrorStatus(), ValidationErrorStatus.INFO);
-        assertEquals(errorList.get(2).getErrorStatus(),ValidationErrorStatus.INFO);
-        assertEquals(errorList.get(3).getErrorStatus(),ValidationErrorStatus.INFO);
-        assertEquals(errorList.get(4).getErrorStatus(), ValidationErrorStatus.INFO);
-        assertEquals(errorList.get(5).getErrorStatus(),ValidationErrorStatus.INFO);
-        assertEquals(errorList.get(6).getErrorStatus(),ValidationErrorStatus.INFO);
-        assertEquals(errorList.get(7).getErrorStatus(), ValidationErrorStatus.ERROR);
+        assertEquals("http://www.pharmml.org/2013/10/PharmMLMetadata#model-tasks-in-scope", errorList.get(0).getQualifier());
+        assertEquals(errorList.get(0).getErrorStatus(), ValidationErrorStatus.ERROR);
 
         assertEquals(metadataValidator.getValidationErrorStatus(), ValidationState.CONDITIONALLY_APPROVED);
     }
@@ -181,17 +179,15 @@ public class MetadataValidationTests {
 
         property = model.createProperty(metadataNS + "model-tasks-in-scope");
         modelResource = model.createResource("http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0006000");
-        model.add( resource, property, modelResource );
-
-        metadataValidator.setModel(model);
+        model.add(resource, property, modelResource );
 
         try {
-            metadataValidator.validate();
+            metadataValidator.validate(model);
         } catch (ValidationException e) {
             e.printStackTrace();
         }
 
-        assertEquals(metadataValidator.getValidationErrorStatus(), ValidationState.APPROVED);
+        assertEquals(ValidationState.APPROVED, metadataValidator.getValidationErrorStatus());
     }
 
 
