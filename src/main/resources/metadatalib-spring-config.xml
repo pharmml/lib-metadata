@@ -23,10 +23,6 @@
 
     </bean>
 
-    <bean id="validationReport" class="eu.ddmore.metadata.service.ValidationReportImpl">
-        <constructor-arg name="metadataValidator" ref="metadataValidator"/>
-    </bean>
-
     <bean id="metadataWriter" class="eu.ddmore.metadata.service.MetadataWriterImpl"/>
 
 </beans>

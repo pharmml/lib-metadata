@@ -6,6 +6,7 @@ import eu.ddmore.metadata.api.MetadataInformationService;
 import eu.ddmore.metadata.api.domain.*;
 import eu.ddmore.metadata.api.domain.enums.ValueSetType;
 import eu.ddmore.metadata.api.domain.sections.Section;
+import eu.ddmore.metadata.api.domain.values.CompositeValue;
 import eu.ddmore.metadata.api.domain.values.Value;
 import net.biomodels.jummp.core.model.ValidationState;
 import org.apache.commons.io.IOUtils;
@@ -13,15 +14,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.*;
 
@@ -62,19 +58,25 @@ public class MetadataValidatorImpl implements MetadataValidator{
         if (IS_DEBUG_ENABLED) {
             logger.debug("Started reading annotations from " + file.getName());
         }
-        readModel(file.toURI().toString());
+        validate(file);
         if (IS_DEBUG_ENABLED) {
             logger.debug("Finished reading annotations from " + file.getName());
         }
         return this.model;
     }
 
-    public void readModel(String url){
+    public void validate(File file)throws ValidationException {
         model = ModelFactory.createDefaultModel();
-        model.read(url);
+        model.read(file.toURI().toString());
+        validate();
     }
 
-    public void validate() throws ValidationException {
+    public void validate(Model model)throws ValidationException{
+        this.model = model;
+        validate();
+    }
+
+    private void validate() throws ValidationException {
         validationHandler = new ValidationHandler();
         Resource resource = validateBasics();
         validateModelConcept(resource);
@@ -101,10 +103,7 @@ public class MetadataValidatorImpl implements MetadataValidator{
 
         logger.info("Number of required properties for the concept" + modelConcept.getLabel() + " is " + requiredProperties.size());
 
-
-        if (requiredProperties.isEmpty())
-            validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.INFO, "There are no required properties to validate."));
-        else
+        if (!requiredProperties.isEmpty())
             validate(requiredProperties, resource);
 
 
@@ -116,18 +115,15 @@ public class MetadataValidatorImpl implements MetadataValidator{
                 StmtIterator stmtIterator = resource.listProperties(property);
                 if (stmtIterator!=null){
                     if(!stmtIterator.hasNext()){
-                        validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.ERROR, validationMessage(resource, requiredProperty, null, 0)));
+                        validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.ERROR, requiredProperty.getPropertyId().getUri(), validationMessage(resource, null, 0)));
                     }
                     while (stmtIterator.hasNext()){
                         Statement statement = stmtIterator.nextStatement();
 
                         int validationLevel = validationLevel(requiredProperty,statement.getObject());
                         if(validationLevel != -1){
-                            validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.ERROR, validationMessage(resource, requiredProperty, statement.getObject(), validationLevel)));
+                            validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.ERROR, requiredProperty.getPropertyId().getUri(), validationMessage(resource, statement.getObject(), validationLevel)));
                         }
-                        else
-                            validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.INFO,validationMessage(resource,requiredProperty,statement.getObject(),validationLevel)));
-
                     }
                 }
             }
@@ -148,10 +144,17 @@ public class MetadataValidatorImpl implements MetadataValidator{
     }
 
     public int validationLevel(eu.ddmore.metadata.api.domain.properties.Property property, RDFNode rdfNode){
+        List<Value> associatedResources = null;
         if(property.getValueSetType().equals(ValueSetType.TEXT)){
             return -1;
         }
-        List<Value> associatedResources = metadataInfoService.findValuesForProperty(property);
+        else if(property.getValueSetType().equals(ValueSetType.LIST)){
+            associatedResources = metadataInfoService.findValuesForProperty(property);
+        }
+        else if(property.getValueSetType().equals(ValueSetType.TREE)){
+            associatedResources = getassociatedResourcesFromTree(metadataInfoService.findValuesForProperty(property));
+        }
+
         if(associatedResources==null){
             return -1;
         }
@@ -173,7 +176,22 @@ public class MetadataValidatorImpl implements MetadataValidator{
         }
     }
 
-    private String validationMessage(Resource subject, eu.ddmore.metadata.api.domain.properties.Property property, RDFNode rdfNode, int validationLevel){
+    private List<Value> getassociatedResourcesFromTree(List<Value> associatedResources){
+        List<Value> resouces = new ArrayList<Value>();
+        for(Value validResource: associatedResources){
+            if(validResource.isValueTree()) {
+                CompositeValue compositeValue = (CompositeValue) validResource;
+                resouces.addAll(compositeValue.getValues());
+                getassociatedResourcesFromTree(compositeValue.getValues());
+            }
+            else return associatedResources;
+        }
+        associatedResources.addAll(resouces);
+        return associatedResources;
+
+    }
+
+    private String validationMessage(Resource subject, RDFNode rdfNode, int validationLevel){
         String validationStatement = "";
         String rdfNodeValue = "";
         if(rdfNode!=null) {
@@ -191,13 +209,13 @@ public class MetadataValidatorImpl implements MetadataValidator{
 
         switch (validationLevel) {
             case -1:
-                validationStatement = subject.getLocalName() + " " + property.getPropertyId().getLabel() + " is "+ rdfNodeValue + ".";
+                validationStatement = " is "+ rdfNodeValue + ".";
                 break;
             case 0:
-                validationStatement = property.getPropertyId().getLabel() + " is empty.";
+                validationStatement = " is empty.";
                 break;
             case 1:
-                validationStatement = subject.getLocalName()  + " " + property.getPropertyId().getLabel()  + " "+ rdfNodeValue + " is invalid.";
+                validationStatement = " "+ rdfNodeValue + " is invalid.";
                 break;
         }
         return validationStatement;
@@ -216,7 +234,7 @@ public class MetadataValidatorImpl implements MetadataValidator{
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return rdfNodeValue;
 
@@ -228,14 +246,9 @@ public class MetadataValidatorImpl implements MetadataValidator{
 
     public ValidationState getValidationErrorStatus(){
         if(validationHandler.getValidationList().isEmpty())
-            return ValidationState.APPROVE;
-        for(ValidationError validationError: validationHandler.getValidationList()){
-            if(validationError.getErrorStatus()==ValidationErrorStatus.ERROR){
-                return ValidationState.CONDITIONALLY_APPROVED;
-            }
-        }
-
-        return ValidationState.APPROVED;
+            return ValidationState.APPROVED;
+        else
+            return ValidationState.CONDITIONALLY_APPROVED;
     }
 
     public void setModel(Model model) {

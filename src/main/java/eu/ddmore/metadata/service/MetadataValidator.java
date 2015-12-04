@@ -21,6 +21,7 @@ import net.biomodels.jummp.core.model.ValidationState;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,9 +31,9 @@ import java.util.ArrayList;
  *         Time: 14:37
  */
 public interface MetadataValidator {
-    public void readModel(String url);
-    public void validate() throws ValidationException;
-    public ValidationHandler getValidationHandler();
-    public ValidationState getValidationErrorStatus();
-    public void setModel(Model model);
+    void validate(File file) throws ValidationException;
+    void validate(Model model) throws ValidationException;
+    ValidationHandler getValidationHandler();
+    ValidationState getValidationErrorStatus();
+    void setModel(Model model);
 }

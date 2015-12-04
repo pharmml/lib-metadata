@@ -10,10 +10,12 @@ package eu.ddmore.metadata.service;
 public class ValidationError {
 
     private final ValidationErrorStatus errorStatus;
+    private final String qualifier;
     private final String message;
 
-    public ValidationError(ValidationErrorStatus errorStatus, String message) {
+    public ValidationError(ValidationErrorStatus errorStatus, String qualifier, String message) {
         this.errorStatus = errorStatus;
+        this.qualifier = qualifier;
         this.message = message;
     }
 
@@ -23,5 +25,9 @@ public class ValidationError {
 
     public String getMessage() {
         return message;
+    }
+
+    public String getQualifier() {
+        return qualifier;
     }
 }

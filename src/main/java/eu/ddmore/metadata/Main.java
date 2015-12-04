@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,15 +17,11 @@ import java.io.File;
 public class Main {
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("metadatalib-spring-config.xml");
-        ValidationReport validationReport = context.getBean(ValidationReportImpl.class);
-        validationReport.generateValidationReport(new File("resources\\Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem-validated.rdf"));
-        System.out.print(validationReport.getValidationReport());
-        //System.out.print(validationReport.generateValidationReports(new File("resources")));
-        /*try {
-            System.out.print(validationReport.generateValidationReport(new URL("http://wwwdev.ebi.ac.uk/biomodels/model-repository/model/download/DDMODEL00000413.1?filename=Friberg_2009_Schizophrenia_Asenapine_PANSS_20140924_v5_Nonmem-validated.rdf")));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-*/
+        MetadataValidator metadataValidator = context.getBean(MetadataValidatorImpl.class);
+        metadataValidator.validate(new File("resources\\DDMODEL00000545.rdf"));
+        ArrayList<ValidationError> errorList = metadataValidator.getValidationHandler().getValidationList();
+        for(ValidationError validationError:errorList)
+            System.out.println(validationError.getQualifier() + validationError.getMessage());
+
     }
 }
