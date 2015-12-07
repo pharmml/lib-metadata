@@ -81,7 +81,7 @@
         <dependency>
             <groupId>net.biomodels.jummp</groupId>
             <artifactId>AnnotationStore</artifactId>
-            <version>0.2.5</version>
+            <version>0.2.6</version>
         </dependency>
 
         <dependency>
