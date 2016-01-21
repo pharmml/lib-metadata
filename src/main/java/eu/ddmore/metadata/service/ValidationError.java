@@ -11,20 +11,24 @@ public class ValidationError {
 
     private final ValidationErrorStatus errorStatus;
     private final String qualifier;
-    private final String message;
+    private final String value;
 
-    public ValidationError(ValidationErrorStatus errorStatus, String qualifier, String message) {
+    public ValidationError(ValidationErrorStatus errorStatus, String qualifier, String value) {
         this.errorStatus = errorStatus;
         this.qualifier = qualifier;
-        this.message = message;
+        this.value = value;
+    }
+
+    public ValidationError(ValidationErrorStatus errorStatus, String qualifier) {
+        this(errorStatus,qualifier,"");
     }
 
     public ValidationErrorStatus getErrorStatus() {
         return errorStatus;
     }
 
-    public String getMessage() {
-        return message;
+    public String getValue() {
+        return value;
     }
 
     public String getQualifier() {

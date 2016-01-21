@@ -9,7 +9,6 @@ package eu.ddmore.metadata.service;
  */
 public enum ValidationErrorStatus {
 
-    INFO,
-    WARNING,
-    ERROR
+    EMPTY,
+    INVALID
 }

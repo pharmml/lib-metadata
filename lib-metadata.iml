@@ -66,7 +66,7 @@
     <orderEntry type="library" name="Maven: eu.ddmore:lib-metadata:0.0.3-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.apache.jena:jena-tdb:1.1.2" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:15.0" level="project" />
-    <orderEntry type="library" name="Maven: net.biomodels.jummp:AnnotationStore:0.2.5" level="project" />
+    <orderEntry type="library" name="Maven: net.biomodels.jummp:AnnotationStore:0.2.6" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.groovy:groovy-all:2.1.9" level="project" />
     <orderEntry type="library" name="Maven: org.grails:grails-spring:2.3.11" level="project" />
     <orderEntry type="library" name="Maven: org.grails:grails-bootstrap:2.3.11" level="project" />

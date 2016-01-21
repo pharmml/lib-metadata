@@ -21,7 +21,7 @@ public class Main {
         metadataValidator.validate(new File("resources\\DDMODEL00000545.rdf"));
         ArrayList<ValidationError> errorList = metadataValidator.getValidationHandler().getValidationList();
         for(ValidationError validationError:errorList)
-            System.out.println(validationError.getQualifier() + validationError.getMessage());
+            System.out.println(validationError.getQualifier() + validationError.getValue());
 
     }
 }

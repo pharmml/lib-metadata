@@ -4,7 +4,7 @@
     <groupId>eu.ddmore.metadata</groupId>
     <artifactId>lib-metadata</artifactId>
     <packaging>jar</packaging>
-    <version>1.3-SNAPSHOT</version>
+    <version>1.4-SNAPSHOT</version>
     <name>lib-metadata</name>
     <url>http://maven.apache.org</url>
 

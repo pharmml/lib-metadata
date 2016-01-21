@@ -115,14 +115,14 @@ public class MetadataValidatorImpl implements MetadataValidator{
                 StmtIterator stmtIterator = resource.listProperties(property);
                 if (stmtIterator!=null){
                     if(!stmtIterator.hasNext()){
-                        validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.ERROR, requiredProperty.getPropertyId().getUri(), validationMessage(resource, null, 0)));
+                        validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.EMPTY, requiredProperty.getPropertyId().getUri()));
                     }
                     while (stmtIterator.hasNext()){
                         Statement statement = stmtIterator.nextStatement();
 
                         int validationLevel = validationLevel(requiredProperty,statement.getObject());
                         if(validationLevel != -1){
-                            validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.ERROR, requiredProperty.getPropertyId().getUri(), validationMessage(resource, statement.getObject(), validationLevel)));
+                            validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.INVALID, requiredProperty.getPropertyId().getUri(), getRDFNodeValue(statement.getObject())));
                         }
                     }
                 }
@@ -191,8 +191,7 @@ public class MetadataValidatorImpl implements MetadataValidator{
 
     }
 
-    private String validationMessage(Resource subject, RDFNode rdfNode, int validationLevel){
-        String validationStatement = "";
+    private String getRDFNodeValue(RDFNode rdfNode){
         String rdfNodeValue = "";
         if(rdfNode!=null) {
             if (rdfNode.isLiteral()) {
@@ -202,42 +201,10 @@ public class MetadataValidatorImpl implements MetadataValidator{
                 }
             }
             else if (rdfNode.isResource()) {
-                rdfNodeValue = ((Resource) rdfNode).getLocalName();
-                rdfNodeValue = getOntologyLabel(rdfNodeValue);
+                rdfNodeValue = ((Resource) rdfNode).getURI();
             }
-        }
-
-        switch (validationLevel) {
-            case -1:
-                validationStatement = " is "+ rdfNodeValue + ".";
-                break;
-            case 0:
-                validationStatement = " is empty.";
-                break;
-            case 1:
-                validationStatement = " "+ rdfNodeValue + " is invalid.";
-                break;
-        }
-        return validationStatement;
-    }
-
-    private String getOntologyLabel(String rdfNodeValue){
-        String urlString = "http://open-physiology.org:20080/labels/"+rdfNodeValue+"?json=true";
-        try {
-            URL url = new URL(urlString);
-            JSONTokener tokener = new JSONTokener(IOUtils.toString(url.openStream()));
-            JSONArray array = new JSONArray(tokener);
-            // The first label is picked
-            if (array != null && array.length() >= 1){
-                rdfNodeValue = array.get(0).toString();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            logger.error(e.getMessage());
         }
         return rdfNodeValue;
-
     }
 
     public ValidationHandler getValidationHandler() {
