@@ -78,8 +78,10 @@ public class MetadataValidationTests {
             assertEquals(ValidationErrorStatus.EMPTY, errorList.get(5).getErrorStatus());
             assertEquals("http://www.pharmml.org/2013/10/PharmMLMetadata#model-field-purpose", errorList.get(6).getQualifier());
             assertEquals(ValidationErrorStatus.EMPTY, errorList.get(6).getErrorStatus());
-            assertEquals("http://www.ddmore.org/ontologies/webannotationtool#model-origin-of-code-in-literature-controlled", errorList.get(7).getQualifier());
+            assertEquals("http://www.pharmml.org/2013/10/PharmMLMetadata#model-related-to-disease-or-condition", errorList.get(7).getQualifier());
             assertEquals(ValidationErrorStatus.EMPTY, errorList.get(7).getErrorStatus());
+            assertEquals("http://www.ddmore.org/ontologies/webannotationtool#model-origin-of-code-in-literature-controlled", errorList.get(8).getQualifier());
+            assertEquals(ValidationErrorStatus.EMPTY, errorList.get(8).getErrorStatus());
         } catch (ValidationException e) {
             e.printStackTrace();
         }
@@ -122,6 +124,10 @@ public class MetadataValidationTests {
         model.add( resource, property, modelResource );
 
         property = model.createProperty(metadataNS + "model-tasks-in-scope");
+        modelResource = model.createResource("http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_test");
+        model.add(resource, property, modelResource);
+
+        property = model.createProperty(metadataNS + "model-related-to-disease-or-condition");
         modelResource = model.createResource("http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_test");
         model.add(resource, property, modelResource);
 
@@ -175,6 +181,10 @@ public class MetadataValidationTests {
         model.add( resource, property, modelResource );
 
         property = model.createProperty(metadataNS + "model-tasks-in-scope");
+        modelResource = model.createResource("http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_test");
+        model.add(resource, property, modelResource);
+
+        property = model.createProperty(metadataNS + "model-related-to-disease-or-condition");
         modelResource = model.createResource("http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_test");
         model.add(resource, property, modelResource);
 
@@ -235,6 +245,10 @@ public class MetadataValidationTests {
         modelResource = model.createResource("http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0006000");
         model.add(resource, property, modelResource );
 
+        property = model.createProperty(metadataNS + "model-related-to-disease-or-condition");
+        modelResource = model.createResource("http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_test");
+        model.add(resource, property, modelResource);
+
         String webannNS = "http://www.ddmore.org/ontologies/webannotationtool#";
 
         property = model.createProperty(webannNS + "model-origin-of-code-in-literature-controlled");
@@ -244,6 +258,9 @@ public class MetadataValidationTests {
         property = model.createProperty(webannNS + "model-implementation-conforms-to-literature-controlled");
         modelResource = model.createResource("true");
         model.add(resource, property, modelResource);
+
+        property = model.createProperty(webannNS + "model-implementation-source-discrepancies-freetext");
+        model.add( resource, property, "test" );
 
         try {
             metadataValidator.validate(model);
@@ -260,7 +277,7 @@ public class MetadataValidationTests {
         Id modelConcept = new Id("Model","http://www.pharmml.org/ontology/PHARMMLO_0000001");
         List<Section> sections = metadataInfoService.findSectionsForConcept(modelConcept);
 
-        assertEquals(sections.size(),14);
+        assertEquals(sections.size(),15);
 
     }
 }
