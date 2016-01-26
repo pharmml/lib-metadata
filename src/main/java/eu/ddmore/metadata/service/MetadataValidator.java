@@ -18,10 +18,12 @@ package eu.ddmore.metadata.service;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import net.biomodels.jummp.core.model.ValidationState;
+import ontologies.OntologySource;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -36,4 +38,5 @@ public interface MetadataValidator {
     ValidationHandler getValidationHandler();
     ValidationState getValidationErrorStatus();
     void setModel(Model model);
+    boolean valueExistInOntologyResource(List<OntologySource> sources, String uri);
 }

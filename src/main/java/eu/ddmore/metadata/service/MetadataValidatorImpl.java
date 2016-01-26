@@ -9,16 +9,21 @@ import eu.ddmore.metadata.api.domain.sections.Section;
 import eu.ddmore.metadata.api.domain.values.CompositeValue;
 import eu.ddmore.metadata.api.domain.values.Value;
 import net.biomodels.jummp.core.model.ValidationState;
+import ontologies.OntologySource;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -120,8 +125,8 @@ public class MetadataValidatorImpl implements MetadataValidator{
                     while (stmtIterator.hasNext()){
                         Statement statement = stmtIterator.nextStatement();
 
-                        int validationLevel = validationLevel(requiredProperty,statement.getObject());
-                        if(validationLevel != -1){
+                        boolean isValid = isValid(requiredProperty, statement.getObject());
+                        if(!isValid){
                             validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.INVALID, requiredProperty.getPropertyId().getUri(), getRDFNodeValue(statement.getObject())));
                         }
                     }
@@ -143,10 +148,10 @@ public class MetadataValidatorImpl implements MetadataValidator{
 
     }
 
-    public int validationLevel(eu.ddmore.metadata.api.domain.properties.Property property, RDFNode rdfNode){
+    public boolean isValid(eu.ddmore.metadata.api.domain.properties.Property property, RDFNode rdfNode){
         List<Value> associatedResources = null;
         if(property.getValueSetType().equals(ValueSetType.TEXT)){
-            return -1;
+            return true;
         }
         else if(property.getValueSetType().equals(ValueSetType.LIST)){
             associatedResources = metadataInfoService.findValuesForProperty(property);
@@ -154,32 +159,75 @@ public class MetadataValidatorImpl implements MetadataValidator{
         else if(property.getValueSetType().equals(ValueSetType.TREE)){
             associatedResources = getassociatedResourcesFromTree(metadataInfoService.findValuesForProperty(property));
         }
+        else if(property.getValueSetType().equals(ValueSetType.ONTOLOGY)){
+            if(rdfNode.isResource()) {
+                List<OntologySource> sources = metadataInfoService.findOntologyResourcesForProperty(property);
+                return valueExistInOntologyResource(sources, ((Resource)rdfNode).getURI());
+            }else{
+                //if property is an ontology, rdfNode must be a resource
+                return false;
+            }
+        }
 
         if(associatedResources==null){
-            return -1;
+            return true;
         }
         else{
             if(rdfNode.isLiteral()){
-                return 1;
+                return false;
             }
             else if(rdfNode.isResource()){
                 Resource givenOntoResource = (Resource)rdfNode;
                 for(Value validResource: associatedResources){
                     if(validResource.getValueId().getUri().equals(givenOntoResource.getURI())){
-                        return -1;
+                        return true;
                     }
                 }
-                return 1;
+                return false;
             }
             else
-                return 1;
+                return false;
         }
     }
+
+    public boolean valueExistInOntologyResource(List<OntologySource> sources, String uri){
+        for(OntologySource ontologySource: sources){
+            if(ontologySource.getResource().equals("OLS")){
+                String iri = uri;
+                try {
+                    iri = URLEncoder.encode(iri, "UTF-8");
+                    iri = URLEncoder.encode(iri, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+
+                String urlString = "http://www.ebi.ac.uk/ols/beta/api/ontologies/"+ontologySource.getSourceId()+"/terms/"+iri;
+
+                try {
+                    URL url = new URL(urlString);
+                    JSONTokener tokener = new JSONTokener(IOUtils.toString(url.openStream()));
+                    JSONObject jsonObject = new JSONObject(tokener);
+                    String value = (String)jsonObject.get("iri");
+                    if(value.equals(uri)){
+                        return true;
+                    }
+                } catch (IOException e) {
+                    logger.error(e.getMessage());
+                } catch (JSONException e) {
+                    logger.error(e.getMessage());
+                }
+            }
+        }
+        return false;
+
+    }
+
+
 
     private List<Value> getassociatedResourcesFromTree(List<Value> associatedResources){
         List<Value> resouces = new ArrayList<Value>();
         for(Value validResource: associatedResources){
-            if(validResource.isValueTree()) {
+            if (validResource.isValueTree()) {
                 CompositeValue compositeValue = (CompositeValue) validResource;
                 resouces.addAll(compositeValue.getValues());
                 getassociatedResourcesFromTree(compositeValue.getValues());

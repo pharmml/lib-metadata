@@ -21,14 +21,27 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
 import eu.ddmore.metadata.api.MetadataInformationService;
 import eu.ddmore.metadata.api.domain.Id;
+import eu.ddmore.metadata.api.domain.enums.ValueSetType;
+import eu.ddmore.metadata.api.domain.properties.CompositeProperty;
+import eu.ddmore.metadata.api.domain.properties.Property;
 import eu.ddmore.metadata.api.domain.sections.Section;
+import eu.ddmore.metadata.api.domain.values.Value;
 import net.biomodels.jummp.core.model.ValidationState;
+import ontologies.OntologySource;
+import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,7 +141,7 @@ public class MetadataValidationTests {
         model.add(resource, property, modelResource);
 
         property = model.createProperty(metadataNS + "model-related-to-disease-or-condition");
-        modelResource = model.createResource("http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_test");
+        modelResource = model.createResource("http://purl.obolibrary.org/obo/DOID_162");
         model.add(resource, property, modelResource);
 
         try {
@@ -185,7 +198,7 @@ public class MetadataValidationTests {
         model.add(resource, property, modelResource);
 
         property = model.createProperty(metadataNS + "model-related-to-disease-or-condition");
-        modelResource = model.createResource("http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_test");
+        modelResource = model.createResource("http://purl.obolibrary.org/obo/DOID_162");
         model.add(resource, property, modelResource);
 
         try {
@@ -246,7 +259,7 @@ public class MetadataValidationTests {
         model.add(resource, property, modelResource );
 
         property = model.createProperty(metadataNS + "model-related-to-disease-or-condition");
-        modelResource = model.createResource("http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_test");
+        modelResource = model.createResource("http://purl.obolibrary.org/obo/DOID_162");
         model.add(resource, property, modelResource);
 
         String webannNS = "http://www.ddmore.org/ontologies/webannotationtool#";
@@ -260,7 +273,7 @@ public class MetadataValidationTests {
         model.add(resource, property, modelResource);
 
         property = model.createProperty(webannNS + "model-implementation-source-discrepancies-freetext");
-        model.add( resource, property, "test" );
+        model.add(resource, property, "test");
 
         try {
             metadataValidator.validate(model);
@@ -279,5 +292,24 @@ public class MetadataValidationTests {
 
         assertEquals(sections.size(),15);
 
+    }
+
+    @Test
+    public void testFieldDiseaseCondition(){
+        Id modelConcept = new Id("Model","http://www.pharmml.org/ontology/PHARMMLO_0000001");
+        List<Section> sections = metadataInfoService.findSectionsForConcept(modelConcept);
+        for(Section section : sections) {
+            List<Property> properties = metadataInfoService.findPropertiesForSection(section);
+            for(Property property: properties){
+                if(property.getPropertyId().getUri().equals("http://www.pharmml.org/2013/10/PharmMLMetadata#model-related-to-disease-or-condition")){
+                    if(property.getValueSetType().equals(ValueSetType.ONTOLOGY)){
+                        List<OntologySource> sources = metadataInfoService.findOntologyResourcesForProperty(property);
+                        assertEquals(sources.get(0).getSourceId(),"doid");
+                        assertEquals(metadataValidator.valueExistInOntologyResource(sources, "test"),false);
+                        assertEquals(metadataValidator.valueExistInOntologyResource(sources, "http://purl.obolibrary.org/obo/DOID_162"),true);
+                    }
+                }
+            }
+        }
     }
 }
