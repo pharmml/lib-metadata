@@ -22,26 +22,16 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import eu.ddmore.metadata.api.MetadataInformationService;
 import eu.ddmore.metadata.api.domain.Id;
 import eu.ddmore.metadata.api.domain.enums.ValueSetType;
-import eu.ddmore.metadata.api.domain.properties.CompositeProperty;
 import eu.ddmore.metadata.api.domain.properties.Property;
 import eu.ddmore.metadata.api.domain.sections.Section;
-import eu.ddmore.metadata.api.domain.values.Value;
 import net.biomodels.jummp.core.model.ValidationState;
 import ontologies.OntologySource;
-import org.apache.commons.io.IOUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -305,8 +295,8 @@ public class MetadataValidationTests {
                     if(property.getValueSetType().equals(ValueSetType.ONTOLOGY)){
                         List<OntologySource> sources = metadataInfoService.findOntologyResourcesForProperty(property);
                         assertEquals(sources.get(0).getSourceId(),"doid");
-                        assertEquals(metadataValidator.valueExistInOntologyResource(sources, "test"),false);
-                        assertEquals(metadataValidator.valueExistInOntologyResource(sources, "http://purl.obolibrary.org/obo/DOID_162"),true);
+                        assertEquals(metadataValidator.resourceExistInOLS(sources, "test"),false);
+                        assertEquals(metadataValidator.resourceExistInOLS(sources, "http://purl.obolibrary.org/obo/DOID_162"),true);
                     }
                 }
             }

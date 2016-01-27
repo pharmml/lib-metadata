@@ -38,5 +38,5 @@ public interface MetadataValidator {
     ValidationHandler getValidationHandler();
     ValidationState getValidationErrorStatus();
     void setModel(Model model);
-    boolean valueExistInOntologyResource(List<OntologySource> sources, String uri);
+    boolean resourceExistInOLS(List<OntologySource> sources, String uri);
 }

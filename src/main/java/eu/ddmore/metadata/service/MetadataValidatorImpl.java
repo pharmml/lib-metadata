@@ -13,13 +13,11 @@ import ontologies.OntologySource;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
@@ -162,7 +160,7 @@ public class MetadataValidatorImpl implements MetadataValidator{
         else if(property.getValueSetType().equals(ValueSetType.ONTOLOGY)){
             if(rdfNode.isResource()) {
                 List<OntologySource> sources = metadataInfoService.findOntologyResourcesForProperty(property);
-                return valueExistInOntologyResource(sources, ((Resource)rdfNode).getURI());
+                return resourceExistInOLS(sources, ((Resource) rdfNode).getURI());
             }else{
                 //if property is an ontology, rdfNode must be a resource
                 return false;
@@ -190,7 +188,7 @@ public class MetadataValidatorImpl implements MetadataValidator{
         }
     }
 
-    public boolean valueExistInOntologyResource(List<OntologySource> sources, String uri){
+    public boolean resourceExistInOLS(List<OntologySource> sources, String uri){
         for(OntologySource ontologySource: sources){
             if(ontologySource.getResource().equals("OLS")){
                 String iri = uri;
