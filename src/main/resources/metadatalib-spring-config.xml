@@ -25,4 +25,6 @@
 
     <bean id="metadataWriter" class="eu.ddmore.metadata.service.MetadataWriterImpl"/>
 
+    <bean id="publishValidator" class="eu.ddmore.publish.service.PublishValidatorImpl"/>
+
 </beans>
