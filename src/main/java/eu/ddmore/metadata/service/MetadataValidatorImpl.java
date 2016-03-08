@@ -5,6 +5,7 @@ import com.hp.hpl.jena.rdf.model.Property;
 import eu.ddmore.metadata.api.MetadataInformationService;
 import eu.ddmore.metadata.api.domain.*;
 import eu.ddmore.metadata.api.domain.enums.ValueSetType;
+import eu.ddmore.metadata.api.domain.sections.CompositeSection;
 import eu.ddmore.metadata.api.domain.sections.Section;
 import eu.ddmore.metadata.api.domain.values.CompositeValue;
 import eu.ddmore.metadata.api.domain.values.Value;
@@ -101,13 +102,27 @@ public class MetadataValidatorImpl implements MetadataValidator{
 
     private void validateModelConcept(Resource resource) throws ValidationException {
         Id modelConcept = new Id("Model","http://www.pharmml.org/ontology/PHARMMLO_0000001");
-        List<Section> sections = metadataInfoService.findSectionsForConcept(modelConcept);
+        List<Section> sections = new ArrayList<Section>();
+        getAllSections(metadataInfoService.getAllPopulatedRootSections(), sections);
         List<eu.ddmore.metadata.api.domain.properties.Property> requiredProperties = getRequiredProperties(sections);
 
         logger.info("Number of required properties for the concept" + modelConcept.getLabel() + " is " + requiredProperties.size());
 
         if (!requiredProperties.isEmpty())
             validate(requiredProperties, resource);
+
+
+    }
+
+    private void getAllSections(List<Section> sections, List<Section> sectionsToValidate){
+        for (Section section : sections) {
+            if(section instanceof CompositeSection){
+                getAllSections(((CompositeSection)section).getSections(), sectionsToValidate);
+            }
+            else {
+                sectionsToValidate.add(section);
+            }
+        }
 
 
     }

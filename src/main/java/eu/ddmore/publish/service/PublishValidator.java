@@ -24,5 +24,5 @@ package eu.ddmore.publish.service;
  *         Time: 10:51
  */
 public interface PublishValidator {
-    boolean validatePublish(PublishInfo publishInfo);
+    Scenario validatePublish(PublishInfo publishInfo);
 }

@@ -22,8 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Created by IntelliJ IDEA.
@@ -48,7 +48,7 @@ public class PublishValidatorTests {
         publishInfo.addToFileSet("Real_data","Real data");
         publishInfo.addToFileSet("Output_real_","Output real");
         publishInfo.addToFileSet("Command.txt","Command file");
-        assertTrue(publishValidator.validatePublish(publishInfo));
+        assertEquals(Scenario.SCENARIO_1,publishValidator.validatePublish(publishInfo));
     }
 
     @Test
@@ -60,7 +60,7 @@ public class PublishValidatorTests {
         publishInfo.addToFileSet("Real_data","Real data");
         publishInfo.addToFileSet("Output_real_","Output real");
         publishInfo.addToFileSet("Command.txt","Command file");
-        assertTrue(publishValidator.validatePublish(publishInfo));
+        assertEquals(Scenario.SCENARIO_2,publishValidator.validatePublish(publishInfo));
     }
 
     @Test
@@ -68,7 +68,7 @@ public class PublishValidatorTests {
         PublishInfo publishInfo = new PublishInfo(true);
         publishInfo.addToFileSet("pharmml.xml","nonexecutable pharmml");
         publishInfo.addToFileSet("mdl.mdl","nonexecutable mdl");
-        assertTrue(publishValidator.validatePublish(publishInfo));
+        assertEquals(Scenario.SCENARIO_3,publishValidator.validatePublish(publishInfo));
     }
 
     @Test
@@ -79,7 +79,7 @@ public class PublishValidatorTests {
         publishInfo.addToFileSet("Real_data","Real data");
         publishInfo.addToFileSet("Output_real_","Output real");
         publishInfo.addToFileSet("Command.txt","Command file");
-        assertTrue(publishValidator.validatePublish(publishInfo));
+        assertEquals(Scenario.SCENARIO_4,publishValidator.validatePublish(publishInfo));
     }
 
     @Test
@@ -90,7 +90,7 @@ public class PublishValidatorTests {
         publishInfo.addToFileSet("Real_data","Real data");
         publishInfo.addToFileSet("Output_real_","Output real");
         publishInfo.addToFileSet("Command.txt","Command file");
-        assertFalse(publishValidator.validatePublish(publishInfo));
+        assertNull(publishValidator.validatePublish(publishInfo));
     }
 
     @Test
@@ -102,7 +102,7 @@ public class PublishValidatorTests {
         publishInfo.addToFileSet("Real_data","Real data");
         publishInfo.addToFileSet("Output_real_","Output real");
         publishInfo.addToFileSet("Command.txt","Command file");
-        assertFalse(publishValidator.validatePublish(publishInfo));
+        assertNull(publishValidator.validatePublish(publishInfo));
     }
 
     @Test
@@ -112,7 +112,7 @@ public class PublishValidatorTests {
         publishInfo.addToFileSet("mdl.mdl","nonexecutable mdl");
         publishInfo.addToFileSet("Output_real_","Output real");
         publishInfo.addToFileSet("Command.txt","Command file");
-        assertFalse(publishValidator.validatePublish(publishInfo));
+        assertNull(publishValidator.validatePublish(publishInfo));
     }
 
     @Test
@@ -122,7 +122,7 @@ public class PublishValidatorTests {
         publishInfo.addToFileSet("mdl.mdl","nonexecutable mdl");
         publishInfo.addToFileSet("Real_data","Real data");
         publishInfo.addToFileSet("Output_real_","Output real");
-        assertFalse(publishValidator.validatePublish(publishInfo));
+        assertNull(publishValidator.validatePublish(publishInfo));
     }
 
 }

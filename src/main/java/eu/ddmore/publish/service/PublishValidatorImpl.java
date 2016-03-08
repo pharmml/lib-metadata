@@ -36,22 +36,22 @@ public class PublishValidatorImpl implements PublishValidator {
     private PublishInfo publishInfo;
     private HashSet<FileType> fileMap;
 
-    public boolean validatePublish(PublishInfo publishInfo){
+    public Scenario validatePublish(PublishInfo publishInfo){
         this.publishInfo = publishInfo;
         fileMap = publishInfo.getFileSet();
         return checkPublishScenarios();
     }
 
-    private boolean checkPublishScenarios(){
+    private Scenario checkPublishScenarios(){
         if (checkScenarioOne())
-            return true;
+            return Scenario.SCENARIO_1;
         else if (checkScenarioTwo())
-            return true;
+            return Scenario.SCENARIO_2;
         else if (checkScenarioThree())
-            return true;
+            return Scenario.SCENARIO_3;
         else if (checkScenarioFour())
-            return true;
-        return false;
+            return Scenario.SCENARIO_4;
+        return null;
     }
 
     private boolean checkScenarioOne(){
