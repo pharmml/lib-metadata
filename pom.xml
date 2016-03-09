@@ -10,7 +10,7 @@
 
     <properties>
         <spring.version>4.1.1.RELEASE</spring.version>
-        <ddmore-metadata.version>0.1.1-SNAPSHOT</ddmore-metadata.version>
+        <ddmore-metadata.version>0.1.2-SNAPSHOT</ddmore-metadata.version>
     </properties>
 
     <dependencies>
