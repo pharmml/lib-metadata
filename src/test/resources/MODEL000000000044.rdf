@@ -1,0 +1,24 @@
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:j.0="http://www.ddmore.org/ontologies/webannotationtool#"
+    xmlns:j.1="http://www.pharmml.org/ontology/"
+    xmlns:j.2="http://www.pharmml.org/2013/10/PharmMLMetadata#" > 
+  <rdf:Description rdf:about="http://localhost:8080/model-repository/model/MODEL000000000044">
+    <j.0:model-origin-of-code-in-literature-controlled rdf:datatype="http://www.w3.org/2001/XMLSchema#string">N</j.0:model-origin-of-code-in-literature-controlled>
+    <j.2:model-has-description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">alpha</j.2:model-has-description>
+    <rdf:type rdf:resource="http://www.pharmml.org/ontology/PHARMMLO_0000001"/>
+    <j.0:model-implementation-conforms-to-literature-controlled rdf:datatype="http://www.w3.org/2001/XMLSchema#string">N</j.0:model-implementation-conforms-to-literature-controlled>
+    <j.2:model-related-to-disease-or-condition rdf:resource="http://purl.obolibrary.org/obo/DOID_1612"/>
+    <j.2:model-field-purpose rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0001023"/>
+    <j.2:model-tasks-in-scope rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0006002"/>
+    <j.2:model-tasks-in-scope rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0006001"/>
+    <j.2:model-research-stage rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0006004"/>
+    <j.2:model-tasks-in-scope rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0006000"/>
+    <j.0:model-implementation-source-discrepancies-freetext rdf:datatype="http://www.w3.org/2001/XMLSchema#string">delta</j.0:model-implementation-source-discrepancies-freetext>
+    <j.2:model-modelling-question rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0006027"/>
+    <j.2:model-has-description-short rdf:datatype="http://www.w3.org/2001/XMLSchema#string">beta</j.2:model-has-description-short>
+    <j.0:model-has-correspondent rdf:datatype="http://www.w3.org/2001/XMLSchema#string">foo</j.0:model-has-correspondent>
+    <j.2:model-research-stage rdf:resource="http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0006006"/>
+    <j.2:model-has-author rdf:datatype="http://www.w3.org/2001/XMLSchema#string">bar</j.2:model-has-author>
+  </rdf:Description>
+</rdf:RDF>

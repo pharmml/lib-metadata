@@ -62,16 +62,16 @@ public class MetadataValidatorImpl implements MetadataValidator{
         if (IS_DEBUG_ENABLED) {
             logger.debug("Started reading annotations from " + file.getName());
         }
-        validate(file);
+        model = ModelFactory.createDefaultModel();
+        model.read(file.toURI().toString());
         if (IS_DEBUG_ENABLED) {
             logger.debug("Finished reading annotations from " + file.getName());
         }
-        return this.model;
+        return model;
     }
 
     public void validate(File file)throws ValidationException {
-        model = ModelFactory.createDefaultModel();
-        model.read(file.toURI().toString());
+        read(file);
         validate();
     }
 

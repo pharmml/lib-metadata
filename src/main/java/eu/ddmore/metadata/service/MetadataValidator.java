@@ -31,6 +31,7 @@ import java.util.List;
  *         Time: 14:37
  */
 public interface MetadataValidator {
+    Model read(File file);
     void validate(File file) throws ValidationException;
     void validate(Model model) throws ValidationException;
     ValidationHandler getValidationHandler();

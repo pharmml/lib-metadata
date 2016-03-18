@@ -32,10 +32,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:metadatalib-spring-config.xml")
@@ -284,6 +287,25 @@ public class MetadataValidationTests {
 
         assertEquals(sections.size(),13);
 
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testReadingAnnotationsFromAnUndefinedFile() {
+        File f = null;
+        metadataValidator.read(f);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testReadingAnnotationsFromAnInexistentFile() {
+        metadataValidator.read(new File("somewhere"));
+    }
+
+    @Test
+    public void testReadingAnnotationsFromAFile() {
+        final File f = new File("src/test/resources/MODEL000000000044.rdf");
+        assertTrue("The file does not exist or is not readable", f.exists() && f.canRead());
+        Model result = metadataValidator.read(f);
+        assertEquals(16, result.size());
     }
 
 /*
