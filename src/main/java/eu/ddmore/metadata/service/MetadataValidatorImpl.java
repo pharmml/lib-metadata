@@ -116,6 +116,10 @@ public class MetadataValidatorImpl implements MetadataValidator{
 
     private void getAllSections(List<Section> sections, List<Section> sectionsToValidate){
         for (Section section : sections) {
+            if (!section.isEnabled()) {
+                // skip this section and any of its children if the disabled flag is set
+                continue;
+            }
             if(section instanceof CompositeSection){
                 getAllSections(((CompositeSection)section).getSections(), sectionsToValidate);
             }
