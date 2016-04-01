@@ -29,6 +29,7 @@ import java.util.*;
  * Created by IntelliJ IDEA.
  *
  * @author Sarala Wimalaratne
+ * @author Mihai Glonț
  *         Date: 04/02/2015
  *         Time: 14:38
  */
@@ -167,36 +168,42 @@ public class MetadataValidatorImpl implements MetadataValidator{
 
     public boolean isValid(eu.ddmore.metadata.api.domain.properties.Property property, RDFNode rdfNode){
         List<Value> associatedResources = null;
-        if(property.getValueSetType().equals(ValueSetType.TEXT)){
-            return true;
-        }
-        else if(property.getValueSetType().equals(ValueSetType.LIST)){
-            associatedResources = metadataInfoService.findValuesForProperty(property);
-        }
-        else if(property.getValueSetType().equals(ValueSetType.TREE)){
-            associatedResources = getassociatedResourcesFromTree(metadataInfoService.findValuesForProperty(property));
-        }
-        else if(property.getValueSetType().equals(ValueSetType.ONTOLOGY)){
-            if(rdfNode.isResource()) {
-                List<OntologySource> sources = metadataInfoService.findOntologyResourcesForProperty(property);
-                return resourceExistInOLS(sources, ((Resource) rdfNode).getURI());
-            }else{
-                //if property is an ontology, rdfNode must be a resource
-                return false;
-            }
+        final ValueSetType RANGE_TYPE = property.getValueSetType();
+        switch(RANGE_TYPE) {
+            case TEXT:
+                return true;
+            case LIST:
+                associatedResources = metadataInfoService.findValuesForProperty(property);
+                break;
+            case TREE:
+                associatedResources = getassociatedResourcesFromTree(
+                        metadataInfoService.findValuesForProperty(property));
+                break;
+            case ONTOLOGY:
+                if (rdfNode.isResource()) {
+                    List<OntologySource> sources =
+                            metadataInfoService.findOntologyResourcesForProperty(property);
+                    return resourceExistInOLS(sources, ((Resource) rdfNode).getURI());
+                } else {
+                    //if property is an ontology, rdfNode must be a resource
+                    return false;
+                }
+            case TEXTLIST:
+                return isTextValueWithinRange(rdfNode, property);
+            default:
+                throw new IllegalArgumentException("Unexpected value set type " + RANGE_TYPE.toString());
         }
 
-        if(associatedResources==null){
+        if(associatedResources == null){
             return true;
         }
-        else{
-            if(rdfNode.isLiteral()){
+        else {
+            if (rdfNode.isLiteral()){
                 return false;
-            }
-            else if(rdfNode.isResource()){
+            } else if (rdfNode.isResource()) {
                 Resource givenOntoResource = (Resource)rdfNode;
-                for(Value validResource: associatedResources){
-                    if(validResource.getValueId().getUri().equals(givenOntoResource.getURI())){
+                for (Value validResource: associatedResources) {
+                    if (validResource.getValueId().getUri().equals(givenOntoResource.getURI())) {
                         return true;
                     }
                 }
@@ -205,6 +212,37 @@ public class MetadataValidatorImpl implements MetadataValidator{
             else
                 return false;
         }
+    }
+
+    /*
+     * Simple method to check whether a textual value is within a property's expected range.
+     *
+     * @param value the literal value for which to perform the test.
+     * @param property the property whose range of accepted values should include the supplied value.
+     */
+    private boolean isTextValueWithinRange(RDFNode value,
+            eu.ddmore.metadata.api.domain.properties.Property property) {
+        if (!value.isLiteral()) {
+            if (logger.isWarnEnabled()) {
+                final String uri = ((Resource) value).getURI();
+                final String propertyLabel = property.getPropertyId().getLabel();
+                final int size = uri.length() + propertyLabel.length() + 45;
+                StringBuilder msg = new StringBuilder(size);
+                msg.append("Property ").append(propertyLabel).append(
+                        " cannot contain non-textual value ").append(uri);
+                logger.warn(msg.toString());
+            }
+            return false;
+        }
+        final String actualValue = ((Literal) value).getString();
+        final List<Value> range = metadataInfoService.findValuesForProperty(property);
+        for (Value expected: range) {
+            String thisLabel = expected.getValueId().getLabel();
+            if (thisLabel == actualValue) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean resourceExistInOLS(List<OntologySource> sources, String uri){
