@@ -30,8 +30,7 @@ import java.util.*;
  *
  * @author Sarala Wimalaratne
  * @author Mihai Glonț
- *         Date: 04/02/2015
- *         Time: 14:38
+ *         Date: 02/04/2016
  */
 public class MetadataValidatorImpl implements MetadataValidator{
 
