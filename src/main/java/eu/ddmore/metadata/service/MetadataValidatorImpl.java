@@ -102,12 +102,11 @@ public class MetadataValidatorImpl implements MetadataValidator{
 
 
     private void validateModelConcept(Resource resource) throws ValidationException {
-        Id modelConcept = new Id("Model","http://www.pharmml.org/ontology/PHARMMLO_0000001");
         List<Section> sections = new ArrayList<Section>();
         getAllSections(metadataInfoService.getAllPopulatedRootSections(), sections);
         List<eu.ddmore.metadata.api.domain.properties.Property> requiredProperties = getRequiredProperties(sections);
+        logger.info("Number of required properties is " + requiredProperties.size());
 
-        logger.info("Number of required properties for the concept" + modelConcept.getLabel() + " is " + requiredProperties.size());
 
         if (!requiredProperties.isEmpty())
             validate(requiredProperties, resource);
