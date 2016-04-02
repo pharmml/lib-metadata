@@ -118,6 +118,14 @@ public class MetadataValidationTests {
         property = model.createProperty(metadataNS + "model-has-description-short");
         model.add( resource, property, "test model" );
 
+        property = model.createProperty("http://www.ddmore.org/ontologies/webannotationtool#model-implementation-source-discrepancies-freetext");
+        model.add(resource, property, "none");
+
+        property = model.createProperty(
+"http://www.ddmore.org/ontologies/webannotationtool#model-implementation-conforms-to-literature-controlled"
+        );
+        model.add(resource, property, "maybe");
+
         property = model.createProperty(metadataNS + "model-modelling-question");
         modelResource = model.createResource("http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0006036");
         model.add( resource, property, modelResource );
@@ -145,8 +153,15 @@ public class MetadataValidationTests {
         }
 
         ArrayList<ValidationError> errorList = metadataValidator.getValidationHandler().getValidationList();
-        assertEquals("http://www.ddmore.org/ontologies/webannotationtool#model-origin-of-code-in-literature-controlled", errorList.get(0).getQualifier());
-        assertEquals(errorList.get(0).getErrorStatus(), ValidationErrorStatus.EMPTY);
+        //assertEquals(2, errorList.size());
+        final ValidationError err1 = errorList.get(0);
+        assertEquals("http://www.ddmore.org/ontologies/webannotationtool#model-origin-of-code-in-literature-controlled",
+                err1.getQualifier());
+        assertEquals(err1.getErrorStatus(), ValidationErrorStatus.EMPTY);
+        final ValidationError err2 = errorList.get(1);
+        assertEquals(ValidationErrorStatus.INVALID, err2.getErrorStatus());
+        assertEquals("http://www.pharmml.org/2013/10/PharmMLMetadata#model-tasks-in-scope",
+                err2.getQualifier());
 
         assertEquals(metadataValidator.getValidationErrorStatus(), ValidationState.CONDITIONALLY_APPROVED);
     }
@@ -174,6 +189,9 @@ public class MetadataValidationTests {
 
         property = model.createProperty(metadataNS + "model-has-description-short");
         model.add( resource, property, "test model" );
+
+        property = model.createProperty("http://www.ddmore.org/ontologies/webannotationtool#model-implementation-source-discrepancies-freetext");
+        model.add(resource, property, "none");
 
         property = model.createProperty(metadataNS + "model-modelling-question");
         modelResource = model.createResource("http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_000603");
@@ -281,11 +299,8 @@ public class MetadataValidationTests {
 
     @Test
     public void testMetadataInformationService(){
-        Id modelConcept = new Id("Model","http://www.pharmml.org/ontology/PHARMMLO_0000001");
-        List<Section> sections = metadataInfoService.findSectionsForConcept(modelConcept);
-
-        assertEquals(sections.size(),13);
-
+        List<Section> sections = metadataInfoService.getAllPopulatedRootSections();
+        assertEquals(5, sections.size());
     }
 
     @Test(expected = IllegalArgumentException.class)
