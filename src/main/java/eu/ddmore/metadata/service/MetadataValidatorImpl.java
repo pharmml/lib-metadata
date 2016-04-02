@@ -107,23 +107,29 @@ public class MetadataValidatorImpl implements MetadataValidator{
         List<eu.ddmore.metadata.api.domain.properties.Property> requiredProperties = getRequiredProperties(sections);
         logger.info("Number of required properties is " + requiredProperties.size());
 
-
-        if (!requiredProperties.isEmpty())
+        if (!requiredProperties.isEmpty()) {
             validate(requiredProperties, resource);
-
-
+        }
     }
 
     private void getAllSections(List<Section> sections, List<Section> sectionsToValidate){
         for (Section section : sections) {
             if (!section.isEnabled()) {
                 // skip this section and any of its children if the disabled flag is set
+                if (IS_DEBUG_ENABLED) {
+                    final String sectionLabel = section.getSectionLabel();
+                    logger.debug("Skipping disabled section " + sectionLabel);
+                }
                 continue;
             }
             if(section instanceof CompositeSection){
                 getAllSections(((CompositeSection)section).getSections(), sectionsToValidate);
             }
             else {
+                if (IS_DEBUG_ENABLED) {
+                    final String sectionLabel = section.getSectionLabel();
+                    logger.debug("Adding required section " + sectionLabel);
+                }
                 sectionsToValidate.add(section);
             }
         }
