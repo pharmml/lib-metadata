@@ -242,7 +242,7 @@ public class MetadataValidatorImpl implements MetadataValidator{
         final List<Value> range = metadataInfoService.findValuesForProperty(property);
         for (Value expected: range) {
             String thisLabel = expected.getValueId().getLabel();
-            if (thisLabel == actualValue) {
+            if (thisLabel.equals(actualValue)) {
                 return true;
             }
         }
