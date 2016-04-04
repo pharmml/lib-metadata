@@ -19,6 +19,7 @@ package eu.ddmore.metadata.service;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.rdf.model.Statement;
 import eu.ddmore.metadata.api.MetadataInformationService;
 import eu.ddmore.metadata.api.domain.Id;
 import eu.ddmore.metadata.api.domain.enums.ValueSetType;
@@ -38,6 +39,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:metadatalib-spring-config.xml")
@@ -160,8 +162,11 @@ public class MetadataValidationTests {
         assertEquals(err1.getErrorStatus(), ValidationErrorStatus.EMPTY);
         final ValidationError err2 = errorList.get(1);
         assertEquals(ValidationErrorStatus.INVALID, err2.getErrorStatus());
-        assertEquals("http://www.pharmml.org/2013/10/PharmMLMetadata#model-tasks-in-scope",
+        assertEquals("http://www.ddmore.org/ontologies/webannotationtool#model-implementation-conforms-to-literature-controlled",
                 err2.getQualifier());
+        final ValidationError err3 = errorList.get(2);
+        assertEquals("http://www.pharmml.org/2013/10/PharmMLMetadata#model-tasks-in-scope", err3.getQualifier());
+        assertEquals(ValidationErrorStatus.INVALID, err3.getErrorStatus());
 
         assertEquals(metadataValidator.getValidationErrorStatus(), ValidationState.CONDITIONALLY_APPROVED);
     }
@@ -225,9 +230,72 @@ public class MetadataValidationTests {
         assertEquals(errorList.get(0).getValue(), "http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_000603");*/
 
         assertEquals("http://www.ddmore.org/ontologies/webannotationtool#model-origin-of-code-in-literature-controlled", errorList.get(0).getQualifier());
-        assertEquals(errorList.get(0).getErrorStatus(), ValidationErrorStatus.EMPTY);
+        assertEquals(ValidationErrorStatus.EMPTY, errorList.get(0).getErrorStatus());
 
-        assertEquals(metadataValidator.getValidationErrorStatus(), ValidationState.CONDITIONALLY_APPROVED);
+        assertEquals(ValidationState.CONDITIONALLY_APPROVED, metadataValidator.getValidationErrorStatus());
+    }
+
+    /* check if a qualifier with value set type TEXTLIST validates correctly. */
+    @Test
+    public void testTextListValues() {
+        final String targetQualifier =
+                "http://www.ddmore.org/ontologies/webannotationtool#model-origin-of-code-in-literature-controlled";
+        Model model = ModelFactory.createDefaultModel();
+        String metadataNS = "http://www.pharmml.org/2013/10/PharmMLMetadata#";
+        Resource resource = model.createResource("http://www.pharmml.org/database/metadata/MODEL001#model001");
+
+        com.hp.hpl.jena.rdf.model.Property property;
+
+        property = model.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+        Resource modelResource = model.createResource("http://www.pharmml.org/ontology/PHARMMLO_0000001");
+        model.add( resource, property, modelResource );
+
+        // fail if the property is there but the value is bogus
+        property = model.createProperty(targetQualifier);
+        Statement targetStmt = model.createStatement(resource, property, "NOPE");
+        model.add(resource, property, "NOPE");
+         try {
+            metadataValidator.validate(model);
+        } catch (ValidationException expected) { }
+        List<ValidationError> errorList =
+                metadataValidator.getValidationHandler().getValidationList();
+        for (ValidationError e: errorList) {
+            if (!e.getQualifier().equals(targetQualifier)) {
+                continue;
+            }
+            assertEquals(ValidationErrorStatus.INVALID, e.getErrorStatus());
+            break;
+        }
+
+        // stll fail if value is a URI
+        model.remove(targetStmt);
+        targetStmt = model.createStatement(resource, property, "http://ddg.gg");
+        model.add(resource, property, "http://ddg.gg");
+         try {
+            metadataValidator.validate(model);
+        } catch (ValidationException expected) { }
+        errorList = metadataValidator.getValidationHandler().getValidationList();
+        for (ValidationError e: errorList) {
+            if (!e.getQualifier().equals(targetQualifier)) {
+                continue;
+            }
+            assertEquals(ValidationErrorStatus.INVALID, e.getErrorStatus());
+            break;
+        }
+
+        // now behave nicely
+        model.remove(targetStmt);
+        model.add(resource, property, "No");
+
+         try {
+            metadataValidator.validate(model);
+        } catch (ValidationException expected) { }
+        errorList = metadataValidator.getValidationHandler().getValidationList();
+        for (ValidationError e: errorList) {
+            if (e.getQualifier().equals(targetQualifier)) {
+                fail("should not encounter error about target qualifier");
+            }
+        }
     }
 
     @Test
@@ -277,12 +345,10 @@ public class MetadataValidationTests {
         String webannNS = "http://www.ddmore.org/ontologies/webannotationtool#";
 
         property = model.createProperty(webannNS + "model-origin-of-code-in-literature-controlled");
-        modelResource = model.createResource("true");
-        model.add(resource, property, modelResource );
+        model.add(resource, property, "Yes" );
 
         property = model.createProperty(webannNS + "model-implementation-conforms-to-literature-controlled");
-        modelResource = model.createResource("true");
-        model.add(resource, property, modelResource);
+        model.add(resource, property, "No");
 
         property = model.createProperty(webannNS + "model-implementation-source-discrepancies-freetext");
         model.add(resource, property, "test");
