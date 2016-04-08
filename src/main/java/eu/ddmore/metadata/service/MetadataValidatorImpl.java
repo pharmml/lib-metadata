@@ -137,23 +137,81 @@ public class MetadataValidatorImpl implements MetadataValidator{
     }
 
     private void validate(List<eu.ddmore.metadata.api.domain.properties.Property> requiredProperties, Resource resource)  {
-         for (eu.ddmore.metadata.api.domain.properties.Property requiredProperty : requiredProperties) {
+        /* Validation of required fields, range type, associated resources */
+        logger.info("BEGINNING VALIDATION PROCESS:");
+        int count = 0;
+        boolean existingConformsToLiteratureProperty = false;
+        boolean existingDiscrepancyProperty = false;
+        logger.info("===> Checking the required fields...");
+        for (eu.ddmore.metadata.api.domain.properties.Property requiredProperty : requiredProperties) {
                 Property property = ResourceFactory.createProperty(requiredProperty.getPropertyId().getUri());
                 StmtIterator stmtIterator = resource.listProperties(property);
-                if (stmtIterator!=null){
-                    if(!stmtIterator.hasNext()){
-                        validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.EMPTY, requiredProperty.getPropertyId().getUri()));
-                    }
-                    while (stmtIterator.hasNext()){
-                        Statement statement = stmtIterator.nextStatement();
-
-                        boolean isValid = isValid(requiredProperty, statement.getObject());
-                        if(!isValid){
-                            validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.INVALID, requiredProperty.getPropertyId().getUri(), getRDFNodeValue(statement.getObject())));
-                        }
+            logger.info(++count + ". Property: " + requiredProperty.getPropertyId().getLabel() +
+                     "\nURI: " + requiredProperty.getPropertyId().getUri() +
+                     "\nValue:");
+            if (stmtIterator!=null){
+                if(!stmtIterator.hasNext()){
+                    validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.EMPTY,
+                            requiredProperty.getPropertyId().getUri()));
+                }
+                while (stmtIterator.hasNext()){
+                    Statement statement = stmtIterator.nextStatement();
+                    boolean isValid = isValid(requiredProperty, statement.getObject());
+                    if(!isValid){
+                        validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.INVALID,
+                                requiredProperty.getPropertyId().getUri(), getRDFNodeValue(statement.getObject())));
                     }
                 }
             }
+        }
+
+        /* Validation of multiple fields based constraint: such as, Celine's proposal: required but not mandatory = conditional */
+        /* if (1.9 : Model compliance with original publication is answered by No)
+         *     1.10 : Discrepancy between implemented model and original publication must be filled in.
+        */
+        logger.info("===> Checking the conditional fields...");
+        String uri = "http://www.ddmore.org/ontologies/webannotationtool#model-implementation-conforms-to-literature-controlled";
+        Property property = ResourceFactory.createProperty(uri);
+        StmtIterator stmtIterator = resource.listProperties(property);
+        String strValue = "";
+        Statement statement = null;
+        if (stmtIterator.hasNext()) {
+            System.out.println("Model implementation conforms to...:");
+            // No need while loop here because the total values associated is 2, including: Yes/No
+            statement = stmtIterator.nextStatement();
+            strValue = statement.getLiteral().getString();
+            // Check existence of the property "Discrepancy between implemented model and original publication"
+            uri = "http://www.ddmore.org/ontologies/webannotationtool#model-implementation-source-discrepancies-freetext";
+            property = ResourceFactory.createProperty(uri);
+            stmtIterator = resource.listProperties(property);
+            if (strValue.equalsIgnoreCase("No"))
+                if (stmtIterator.hasNext()) {
+                    System.out.println("Discrepancies...:");
+                    // No need while loop here because the total values associated is 0 (free text)
+                    statement = stmtIterator.nextStatement();
+                    System.out.println(statement.getLiteral().getString());
+                }
+                else {
+                    validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.EMPTY,
+                            property.getURI()));
+                }
+            else {
+                if (stmtIterator.hasNext()) {
+                    statement = stmtIterator.nextStatement();
+                    validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.INVALID,
+                            property.getURI(), getRDFNodeValue(statement.getObject())));
+                }
+            }
+        } else {
+            uri = "http://www.ddmore.org/ontologies/webannotationtool#model-implementation-source-discrepancies-freetext";
+            property = ResourceFactory.createProperty(uri);
+            stmtIterator = resource.listProperties(property);
+            if (stmtIterator.hasNext()) {
+                statement = stmtIterator.nextStatement();
+                validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.INVALID,
+                        property.getURI(), getRDFNodeValue(statement.getObject())));
+            }
+        }
     }
 
     private List<eu.ddmore.metadata.api.domain.properties.Property> getRequiredProperties(List<Section> sections){
