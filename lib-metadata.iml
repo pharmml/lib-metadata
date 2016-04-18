@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="Spring" name="Spring">
+      <configuration>
+        <fileset id="fileset" name="Spring Application Context" removed="false">
+          <file>file://$MODULE_DIR$/src/main/resources/metadatalib-spring-config.xml</file>
+        </fileset>
+      </configuration>
+    </facet>
+  </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
@@ -7,6 +16,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -57,7 +67,7 @@
     <orderEntry type="library" name="Maven: eu.ddmore:lib-metadata:0.1.2-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.apache.jena:jena-tdb:1.1.2" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:15.0" level="project" />
-    <orderEntry type="library" name="Maven: net.biomodels.jummp:AnnotationStore:0.2.7" level="project" />
+    <orderEntry type="library" name="Maven: net.biomodels.jummp:AnnotationStore:0.2.8-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.groovy:groovy-all:2.1.9" level="project" />
     <orderEntry type="library" name="Maven: org.grails:grails-spring:2.3.11" level="project" />
     <orderEntry type="library" name="Maven: org.grails:grails-bootstrap:2.3.11" level="project" />
