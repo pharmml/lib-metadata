@@ -25,4 +25,5 @@ package eu.ddmore.publish.service;
  */
 public interface PublishValidator {
     Scenario validatePublish(PublishInfo publishInfo);
+    PublishContext generatePublishContext(Scenario scenario);
 }

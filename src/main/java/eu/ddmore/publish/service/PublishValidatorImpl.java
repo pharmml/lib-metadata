@@ -100,6 +100,24 @@ public class PublishValidatorImpl implements PublishValidator {
         return false;
     }
 
+    public PublishContext generatePublishContext(Scenario scenario){
+        PublishContext publishContext = new PublishContext();
+        String message = " Provides minimal requirements for ";
+        switch (scenario){
+            case SCENARIO_1:publishContext.setMessage(message + "scenario 1.");
+                break;
+            case SCENARIO_2:publishContext.setMessage(message + "scenario 2.");
+                break;
+            case SCENARIO_3:publishContext.setMessage(message + "scenario 3.");
+                break;
+            case SCENARIO_4:publishContext.setMessage(message + "scenario 4.");
+                break;
+            default: publishContext = null;
+                break;
+        }
+        return publishContext;
+    }
+
     
 
 
