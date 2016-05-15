@@ -164,9 +164,6 @@ public class MetadataValidationTests {
         assertEquals(ValidationErrorStatus.INVALID, err2.getErrorStatus());
         assertEquals("http://www.pharmml.org/2013/10/PharmMLMetadata#model-tasks-in-scope",
                 err2.getQualifier());
-        final ValidationError err3 = errorList.get(2);
-        assertEquals("http://www.ddmore.org/ontologies/webannotationtool#model-implementation-source-discrepancies-freetext", err3.getQualifier());
-        assertEquals(ValidationErrorStatus.INVALID, err3.getErrorStatus());
 
         assertEquals(metadataValidator.getValidationErrorStatus(), ValidationState.CONDITIONALLY_APPROVED);
     }
