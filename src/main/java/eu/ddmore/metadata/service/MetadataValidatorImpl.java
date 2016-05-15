@@ -142,9 +142,12 @@ public class MetadataValidatorImpl implements MetadataValidator{
         for (eu.ddmore.metadata.api.domain.properties.Property requiredProperty : requiredProperties) {
                 Property property = ResourceFactory.createProperty(requiredProperty.getPropertyId().getUri());
                 StmtIterator stmtIterator = resource.listProperties(property);
-            logger.info(++count + ". Property: " + requiredProperty.getPropertyId().getLabel() +
-                     "\nURI: " + requiredProperty.getPropertyId().getUri() +
-                     "\nValue:");
+            if (IS_DEBUG_ENABLED) {
+                StringBuilder msg = new StringBuilder();
+                final String pLabel = requiredProperty.getPropertyId().getLabel();
+                msg.append(++count).append(". Property ").append(pLabel);
+                logger.debug(msg.toString());
+            }
             if (stmtIterator!=null){
                 if(!stmtIterator.hasNext()){
                     validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.EMPTY,
