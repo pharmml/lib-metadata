@@ -74,10 +74,10 @@ public class PublishValidatorTests {
     @Test
     public void testScenarioFour(){
         PublishInfo publishInfo = new PublishInfo(true);
-        publishInfo.addToFileSet("Executable_pharmml.xml","Executable pharmml");
-        publishInfo.addToFileSet("mdl.mdl","nonexecutable mdl");
-        publishInfo.addToFileSet("Real_data","Real data");
-        publishInfo.addToFileSet("Output_real_","Output real");
+        publishInfo.addToFileSet("Executable_simulated_EPO_dataset.ctl","Executable file");
+        publishInfo.addToFileSet("Output_real_EPO.lst","output real");
+        publishInfo.addToFileSet("Output_simulated_EPO_dataset.lst","output simulated");
+        publishInfo.addToFileSet("Simulated_EPO_dataset.csv","Output real");
         publishInfo.addToFileSet("Command.txt","Command file");
         assertEquals(Scenario.SCENARIO_4,publishValidator.validatePublish(publishInfo));
     }
@@ -97,7 +97,7 @@ public class PublishValidatorTests {
     public void testInvalidPharmmlFile(){
         PublishInfo publishInfo = new PublishInfo(true);
         publishInfo.addToFileSet("pharmml","nonexecutable pharmml");
-        publishInfo.addToFileSet("mdl.mdl","nonexecutable mdl");
+        publishInfo.addToFileSet("Executable_mdl.mdl","nonexecutable mdl");
         publishInfo.addToFileSet("Executable_file","Executable file");
         publishInfo.addToFileSet("Real_data","Real data");
         publishInfo.addToFileSet("Output_real_","Output real");

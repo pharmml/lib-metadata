@@ -90,7 +90,9 @@ public class PublishValidatorImpl implements PublishValidator {
     }
 
     private boolean checkScenarioFour(){
-        if ((fileMap.contains(FileType.EXE_PHARMML) || fileMap.contains(FileType.EXE_MDL)) &&
+        if ((!fileMap.contains(FileType.EXE_PHARMML) &&
+                !fileMap.contains(FileType.EXE_MDL)) &&
+                fileMap.contains(FileType.EXE_FILE) &&
                 publishInfo.validDataFile() &&
                 fileMap.contains(FileType.COMMAND) &&
                 publishInfo.validModelAccomodation()){
