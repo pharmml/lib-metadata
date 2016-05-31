@@ -157,13 +157,9 @@ public class MetadataValidationTests {
         ArrayList<ValidationError> errorList = metadataValidator.getValidationHandler().getValidationList();
         //assertEquals(2, errorList.size());
         final ValidationError err1 = errorList.get(0);
-        assertEquals("http://www.ddmore.org/ontologies/webannotationtool#model-origin-of-code-in-literature-controlled",
-                err1.getQualifier());
-        assertEquals(err1.getErrorStatus(), ValidationErrorStatus.EMPTY);
-        final ValidationError err2 = errorList.get(1);
-        assertEquals(ValidationErrorStatus.INVALID, err2.getErrorStatus());
+        assertEquals(ValidationErrorStatus.INVALID, err1.getErrorStatus());
         assertEquals("http://www.pharmml.org/2013/10/PharmMLMetadata#model-tasks-in-scope",
-                err2.getQualifier());
+                err1.getQualifier());
 
         assertEquals(metadataValidator.getValidationErrorStatus(), ValidationState.CONDITIONALLY_APPROVED);
     }
@@ -226,8 +222,8 @@ public class MetadataValidationTests {
         assertEquals(errorList.get(0).getErrorStatus(), ValidationErrorStatus.INVALID);
         assertEquals(errorList.get(0).getValue(), "http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_000603");*/
 
-        assertEquals("http://www.ddmore.org/ontologies/webannotationtool#model-origin-of-code-in-literature-controlled", errorList.get(0).getQualifier());
-        assertEquals(ValidationErrorStatus.EMPTY, errorList.get(0).getErrorStatus());
+        assertEquals(metadataNS + "model-tasks-in-scope", errorList.get(0).getQualifier());
+        assertEquals(ValidationErrorStatus.INVALID, errorList.get(0).getErrorStatus());
 
         assertEquals(ValidationState.CONDITIONALLY_APPROVED, metadataValidator.getValidationErrorStatus());
     }
