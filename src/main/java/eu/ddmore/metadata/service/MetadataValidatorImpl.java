@@ -43,6 +43,8 @@ public class MetadataValidatorImpl implements MetadataValidator{
      */
     private static final boolean IS_DEBUG_ENABLED = logger.isDebugEnabled();
 
+    private static final String MODEL_RESOURCE_NS = "http://www.pharmml.org/ontology/PharmMLO_0000001";
+
     private MetadataInformationService metadataInfoService;
     private Model model;
     private ValidationHandler validationHandler;
@@ -82,33 +84,38 @@ public class MetadataValidatorImpl implements MetadataValidator{
 
     private void validate() throws ValidationException {
         validationHandler = new ValidationHandler();
-        Resource resource = validateBasics();
-        validateModelConcept(resource);
+        List<Section> sections = new ArrayList<Section>();
+        getAllSections(metadataInfoService.getAllPopulatedRootSections(), sections);
+        HashMap<String, List<eu.ddmore.metadata.api.domain.properties.Property>> requiredProperties = getRequiredProperties(sections);
+
+        if (!requiredProperties.isEmpty()) {
+            for (Map.Entry <String, List<eu.ddmore.metadata.api.domain.properties.Property>> entry :requiredProperties.entrySet()) {
+                String conceptIdURL = entry.getKey();
+                List propertyList = entry.getValue();
+
+                //correct element annotation mapping
+                Resource resource = getAnnotatedResouce(conceptIdURL);
+
+                //hardcoded for the current incorrect approach as requested
+                //Resource resource = getAnnotatedResouce(MODEL_RESOURCE_NS);
+                validate(propertyList, resource);
+
+            }
+
+        }
     }
 
-    private Resource validateBasics() throws ValidationException {
-        Resource resourceEntry = ResourceFactory.createResource("http://www.pharmml.org/ontology/PHARMMLO_0000001");
+    private Resource getAnnotatedResouce(String url) {
+        Resource resourceEntry = ResourceFactory.createResource(url);
         Property typeProperty = ResourceFactory.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
         ResIterator resIterator = model.listSubjectsWithProperty(typeProperty, resourceEntry);
 
         if(!resIterator.hasNext()){
-            throw new ValidationException("Invalid RDF document. The metadata is not be typed");
+            return null;
         }
 
         return resIterator.nextResource();
 
-    }
-
-
-    private void validateModelConcept(Resource resource) throws ValidationException {
-        List<Section> sections = new ArrayList<Section>();
-        getAllSections(metadataInfoService.getAllPopulatedRootSections(), sections);
-        List<eu.ddmore.metadata.api.domain.properties.Property> requiredProperties = getRequiredProperties(sections);
-        logger.info("Number of required properties is " + requiredProperties.size());
-
-        if (!requiredProperties.isEmpty()) {
-            validate(requiredProperties, resource);
-        }
     }
 
     private void getAllSections(List<Section> sections, List<Section> sectionsToValidate){
@@ -140,6 +147,10 @@ public class MetadataValidatorImpl implements MetadataValidator{
         /* Validation of required fields, range type, associated resources */
         int count = 0;
         for (eu.ddmore.metadata.api.domain.properties.Property requiredProperty : requiredProperties) {
+            if(resource==null){
+                validationHandler.addValidationError(new ValidationError(ValidationErrorStatus.EMPTY, requiredProperty.getPropertyId().getUri()));
+                continue;
+            }
                 Property property = ResourceFactory.createProperty(requiredProperty.getPropertyId().getUri());
                 StmtIterator stmtIterator = resource.listProperties(property);
             if (IS_DEBUG_ENABLED) {
@@ -165,13 +176,18 @@ public class MetadataValidatorImpl implements MetadataValidator{
         }
     }
 
-    private List<eu.ddmore.metadata.api.domain.properties.Property> getRequiredProperties(List<Section> sections){
-        List<eu.ddmore.metadata.api.domain.properties.Property> requiredProperties = new ArrayList<eu.ddmore.metadata.api.domain.properties.Property>();
+    private HashMap <String, List<eu.ddmore.metadata.api.domain.properties.Property>> getRequiredProperties(List<Section> sections){
+        HashMap <String, List<eu.ddmore.metadata.api.domain.properties.Property>> requiredProperties = new HashMap <String, List<eu.ddmore.metadata.api.domain.properties.Property>>();
 
         for(Section section: sections) {
             for(eu.ddmore.metadata.api.domain.properties.Property property: metadataInfoService.findPropertiesForSection(section)){
                 if(property.isRequired()){
-                    requiredProperties.add(property);
+                    List<eu.ddmore.metadata.api.domain.properties.Property> propertyList = requiredProperties.get(property.getConceptId().getUri());
+                    if(propertyList==null) {
+                        propertyList = new ArrayList<eu.ddmore.metadata.api.domain.properties.Property>();
+                        requiredProperties.put(property.getConceptId().getUri(), propertyList);
+                    }
+                    propertyList.add(property);
                 }
             }
         }

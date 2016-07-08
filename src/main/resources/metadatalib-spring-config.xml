@@ -12,8 +12,8 @@
                 <constructor-arg>
                     <bean class="eu.ddmore.metadata.sparql.SparqlQueryService">
                         <!--<constructor-arg value="http://open-physiology.org:3030/demo2/query"/>-->
-                        <!--constructor-arg value="http://open-physiology.org:3032/ddmoreprot/query"/-->
-                        <constructor-arg value="http://repository.ddmore.eu:3030/ddmore-metadata/query"/>
+                        <constructor-arg value="http://open-physiology.org:3032/ddmoreprot/query"/>
+                        <!--<constructor-arg value="http://ves-ebi-a5:3030/subsections5-9/query"/>-->
                     </bean>
                 </constructor-arg>
             </bean>

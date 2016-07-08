@@ -36,6 +36,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -65,7 +67,7 @@ public class MetadataValidationTests {
         Resource resource = model.createResource("http://www.pharmml.org/database/metadata/MODEL001#model001");
 
         com.hp.hpl.jena.rdf.model.Property property = model.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-        Resource modelResource = model.createResource("http://www.pharmml.org/ontology/PHARMMLO_0000001");
+        Resource modelResource = model.createResource("http://www.pharmml.org/ontology/PharmMLO_0000001");
         model.add(resource, property, modelResource);
 
         try {
@@ -105,7 +107,7 @@ public class MetadataValidationTests {
         com.hp.hpl.jena.rdf.model.Property property;
 
         property = model.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-        Resource modelResource = model.createResource("http://www.pharmml.org/ontology/PHARMMLO_0000001");
+        Resource modelResource = model.createResource("http://www.pharmml.org/ontology/PharmMLO_0000001");
         model.add( resource, property, modelResource );
 
         property = model.createProperty(metadataNS + "model-has-name");
@@ -156,10 +158,15 @@ public class MetadataValidationTests {
 
         ArrayList<ValidationError> errorList = metadataValidator.getValidationHandler().getValidationList();
         //assertEquals(2, errorList.size());
-        final ValidationError err1 = errorList.get(0);
-        assertEquals(ValidationErrorStatus.INVALID, err1.getErrorStatus());
-        assertEquals("http://www.pharmml.org/2013/10/PharmMLMetadata#model-tasks-in-scope",
-                err1.getQualifier());
+        Map<String, ValidationErrorStatus> errMap = new TreeMap<String, ValidationErrorStatus>();
+        for (ValidationError e: errorList) {
+            errMap.put(e.getQualifier(), e.getErrorStatus());
+        }
+        String tasksInScopeQualifier =
+                "http://www.pharmml.org/2013/10/PharmMLMetadata#model-tasks-in-scope";
+        assertTrue(errMap.size() > 0);
+        assertTrue(errMap.containsKey(tasksInScopeQualifier));
+        assertEquals(ValidationErrorStatus.INVALID, errMap.get(tasksInScopeQualifier));
 
         assertEquals(metadataValidator.getValidationErrorStatus(), ValidationState.CONDITIONALLY_APPROVED);
     }
@@ -173,7 +180,7 @@ public class MetadataValidationTests {
         com.hp.hpl.jena.rdf.model.Property property;
 
         property = model.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-        Resource modelResource = model.createResource("http://www.pharmml.org/ontology/PHARMMLO_0000001");
+        Resource modelResource = model.createResource("http://www.pharmml.org/ontology/PharmMLO_0000001");
         model.add( resource, property, modelResource );
 
         property = model.createProperty(metadataNS + "model-has-name");
@@ -218,12 +225,16 @@ public class MetadataValidationTests {
         }
 
         ArrayList<ValidationError> errorList = metadataValidator.getValidationHandler().getValidationList();
+        Map<String, ValidationErrorStatus> errorMap = new TreeMap<String, ValidationErrorStatus>();
+        for (ValidationError e: errorList) {
+            errorMap.put(e.getQualifier(), e.getErrorStatus());
+        }
 /*        assertEquals("http://www.pharmml.org/2013/10/PharmMLMetadata#model-modelling-question", errorList.get(0).getQualifier());
         assertEquals(errorList.get(0).getErrorStatus(), ValidationErrorStatus.INVALID);
         assertEquals(errorList.get(0).getValue(), "http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_000603");*/
 
-        assertEquals(metadataNS + "model-tasks-in-scope", errorList.get(0).getQualifier());
-        assertEquals(ValidationErrorStatus.INVALID, errorList.get(0).getErrorStatus());
+        String qualifier = metadataNS + "model-tasks-in-scope";
+        assertEquals(ValidationErrorStatus.INVALID, errorMap.get(qualifier));
 
         assertEquals(ValidationState.CONDITIONALLY_APPROVED, metadataValidator.getValidationErrorStatus());
     }
@@ -240,7 +251,7 @@ public class MetadataValidationTests {
         com.hp.hpl.jena.rdf.model.Property property;
 
         property = model.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-        Resource modelResource = model.createResource("http://www.pharmml.org/ontology/PHARMMLO_0000001");
+        Resource modelResource = model.createResource("http://www.pharmml.org/ontology/PharmMLO_0000001");
         model.add( resource, property, modelResource );
 
         // fail if the property is there but the value is bogus
@@ -300,7 +311,7 @@ public class MetadataValidationTests {
         com.hp.hpl.jena.rdf.model.Property property;
 
         property = model.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
-        Resource modelResource = model.createResource("http://www.pharmml.org/ontology/PHARMMLO_0000001");
+        Resource modelResource = model.createResource("http://www.pharmml.org/ontology/PharmMLO_0000001");
         model.add( resource, property, modelResource );
 
         property = model.createProperty(metadataNS + "model-has-name");
@@ -346,10 +357,84 @@ public class MetadataValidationTests {
         property = model.createProperty(webannNS + "model-implementation-source-discrepancies-freetext");
         model.add(resource, property, "test");
 
+        property = model.createProperty(
+                "http://www.ddmore.org/ontologies/webannotationtool#model-has-correspondent");
+        model.add(resource, property, "correspondent");
+
+        property = model.createProperty(metadataNS + "model-HasAssumptions-freetext");
+        model.add(resource, property, "something");
+
+        // modelling steps annotations
+        resource = model.createResource("http://www.pharmml.org/database/metadata/MODEL001#model003");
+        property = model.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+        Resource stepsResource = model.createResource("<http://www.pharmml.org/ontology/PharmMLO_0000007");
+        model.add(resource, property, stepsResource);
+        model.createProperty(metadataNS + "modellingstep-modelrun-uses-software");
+        model.add(resource, property,
+                model.createResource("http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0000390"));
+
+        // trial design annotations
+        resource = model.createResource("http://www.pharmml.org/database/metadata/MODEL001#model002");
+        property = model.createProperty("http://www.w3.org/1999/02/22-rdf-syntax-ns#type");
+        Resource trialResource = model.createResource("<http://www.pharmml.org/ontology/PharmMLO_0000006");
+        model.add(resource, property, trialResource);
+
+        property = model.createProperty(metadataNS + "trialdesign-HasAssociatedDataOfType-DataPool");
+        model.add(resource, property, model.createResource(
+                "http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0000413"));
+
+        property = model.createProperty(metadataNS + "trialdesign-observed-variables-are-real-freetext");
+        model.add(resource, property, "nope");
+
+        model.createProperty(metadataNS + "trialdesign-HasAssociatedHumanGroupByMedicalStatus-DataPool");
+        model.add(resource, property,
+                model.createResource("http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0008012"));
+
+        model.createProperty(metadataNS + "trialdesign-HasAssociatedNumberOfModelledObservations-DataPool");
+        model.add(resource, property, "4");
+
+        model.createProperty(metadataNS + "trialdesign-HasAssociatedNumberOfSubjects-DataPool");
+        model.add(resource, property, "4");
+
+        model.createProperty(metadataNS + "trialdesign-HasAssociatedOrganismType-DataPool");
+        model.add(resource, property, model.createResource("http://purl.bioontology.org/ontology/NCBITAXON/9986"));
+
+        model.createProperty(metadataNS + "trialdesign-HasAssociatedSamplingDesign-DataPool");
+        model.add(resource, property, model.createResource("http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0008035"));
+
+        model.createProperty(metadataNS + "modellingstep-modelrun-uses-software");
+        model.add(resource, property, model.createResource("http://www.ddmore.org/ontologies/ontology/pkpd-ontology#pkpd_0000390"));
+
+        model.createProperty(metadataNS + "trialdesign-observed-variables-are-real-freetext");
+        model.add(resource, property, "freetext");
+
+/*
+http://www.pharmml.org/2013/10/PharmMLMetadata#modellingstep-modelrun-uses-software: EMPTY
+http://www.pharmml.org/2013/10/PharmMLMetadata#trialdesign-HasAssociatedDataOfType-DataPool: EMPTY
+http://www.pharmml.org/2013/10/PharmMLMetadata#trialdesign-HasAssociatedNumberOfModelledObservations-DataPool: EMPTY
+http://www.pharmml.org/2013/10/PharmMLMetadata#trialdesign-HasAssociatedNumberOfSubjects-DataPool: EMPTY
+http://www.pharmml.org/2013/10/PharmMLMetadata#trialdesign-HasAssociatedSamplingDesign-DataPool: EMPTY
+http://www.pharmml.org/2013/10/PharmMLMetadata#trialdesign-observed-variables-are-real-freetext: EMPTY
+*/
+
         try {
             metadataValidator.validate(model);
         } catch (ValidationException e) {
             e.printStackTrace();
+        }
+
+        List<ValidationError> errorList =
+                metadataValidator.getValidationHandler().getValidationList();
+        Map<String, ValidationErrorStatus> errMap = new TreeMap<String, ValidationErrorStatus>();
+        for (ValidationError e: errorList) {
+            errMap.put(e.getQualifier(), e.getErrorStatus());
+        }
+        if (errorList.isEmpty()) {
+            System.out.println("hooraaah --- certified");
+        } else {
+            for (Map.Entry e: errMap.entrySet()) {
+                System.out.println(e.getKey() + ": " + e.getValue());
+            }
         }
 
         assertEquals(ValidationState.APPROVED, metadataValidator.getValidationErrorStatus());
@@ -384,7 +469,7 @@ public class MetadataValidationTests {
 /*
     @Test
     public void testFieldDiseaseCondition(){
-        Id modelConcept = new Id("Model","http://www.pharmml.org/ontology/PHARMMLO_0000001");
+        Id modelConcept = new Id("Model","http://www.pharmml.org/ontology/PharmMLO_0000001");
         List<Section> sections = metadataInfoService.findSectionsForConcept(modelConcept);
         for(Section section : sections) {
             List<Property> properties = metadataInfoService.findPropertiesForSection(section);
