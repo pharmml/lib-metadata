@@ -24,6 +24,7 @@ import eu.ddmore.metadata.api.MetadataInformationService;
 import eu.ddmore.metadata.api.domain.Id;
 import eu.ddmore.metadata.api.domain.enums.ValueSetType;
 import eu.ddmore.metadata.api.domain.properties.Property;
+import eu.ddmore.metadata.api.domain.sections.CompositeSection;
 import eu.ddmore.metadata.api.domain.sections.Section;
 import net.biomodels.jummp.core.model.ValidationState;
 import ontologies.OntologySource;
@@ -445,6 +446,15 @@ http://www.pharmml.org/2013/10/PharmMLMetadata#trialdesign-observed-variables-ar
     public void testMetadataInformationService(){
         List<Section> sections = metadataInfoService.getAllPopulatedRootSections();
         assertEquals(5, sections.size());
+    }
+
+    @Test
+    public void testMetadataInformationService1(){
+        String cmdSectionNumber = "2.1";
+        String cmdSectionLabel = "Context of model development";
+        Section section = new CompositeSection(cmdSectionNumber,cmdSectionLabel);
+        List<Property> properties = metadataInfoService.findPropertiesForSection(section);
+        assertEquals(5, properties.size());
     }
 
     @Test(expected = IllegalArgumentException.class)
